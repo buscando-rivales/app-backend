@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id
+  email          String         @unique
+  fullName       String         @map("full_name")
+  phone          String?
+  avatarUrl      String?        @map("avatar_url")
+  rating         Decimal?       @default(5.00) @db.Decimal(3, 2)
+  createdAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  chatMessages   ChatMessage[]
+  gamePlayers    GamePlayer[]
+  organizedGames Game[]         @relation("Organizer")
+  notifications  Notification[]
+
+  @@map("users")
+}
+
+model Field {
+  id               String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name             String
+  address          String
+  location         Unsupported("geography")
+  phone            String?
+  openingTime      DateTime                 @map("opening_time") @db.Time(6)
+  closingTime      DateTime                 @map("closing_time") @db.Time(6)
+  basePricePerHour Decimal?                 @map("base_price_per_hour") @db.Decimal(10, 2)
+  amenities        Json?
+  createdAt        DateTime                 @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime                 @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  games            Game[]
+
+  @@index([location], map: "idx_fields_location", type: Gist)
+  @@map("fields")
+}
+
+model Game {
+  id             String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  organizerId    String       @map("organizer_id")
+  fieldId        String       @map("field_id") @db.Uuid
+  gameType       Int          @map("game_type") @db.SmallInt
+  gameLevel      Int          @map("game_level") @db.SmallInt
+  startTime      DateTime     @map("start_time") @db.Timestamptz(6)
+  endTime        DateTime     @map("end_time") @db.Timestamptz(6)
+  totalSpots     Int          @map("total_spots") @db.SmallInt
+  availableSpots Int          @map("available_spots") @db.SmallInt
+  pricePerPlayer Decimal      @map("price_per_player") @db.Decimal(10, 2)
+  status         String
+  createdAt      DateTime     @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime     @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  chatRoom       ChatRoom?
+  gamePlayers    GamePlayer[]
+  field          Field        @relation(fields: [fieldId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  organizer      User         @relation("Organizer", fields: [organizerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([fieldId], map: "idx_games_field_id")
+  @@index([startTime], map: "idx_games_start_time")
+  @@map("games")
+}
+
+model GamePlayer {
+  id       String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  gameId   String   @map("game_id") @db.Uuid
+  playerId String   @map("player_id")
+  joinedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @map("joined_at") @db.Timestamptz(6)
+  status   String
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  player   User     @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([gameId, playerId])
+  @@index([gameId], map: "idx_game_players_game_id")
+  @@map("game_players")
+}
+
+model ChatRoom {
+  id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  gameId    String        @unique @map("game_id") @db.Uuid
+  createdAt DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  messages  ChatMessage[]
+  game      Game          @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("chat_rooms")
+}
+
+model ChatMessage {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  roomId    String   @map("room_id") @db.Uuid
+  userId    String   @map("user_id")
+  message   String
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([roomId], map: "idx_chat_messages_room_id")
+  @@map("chat_messages")
+}
+
+model Notification {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String   @map("user_id")
+  title     String
+  body      String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([userId], map: "idx_notifications_user_id")
+  @@map("notifications")
+}
+
+model Metric {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  eventType String   @map("event_type")
+  eventData Json     @map("event_data")
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+
+  @@map("metrics")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
