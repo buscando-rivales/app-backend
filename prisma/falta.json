@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ChIJsZnGC2LNtZUR55wouPz5fuY",
+    "nationalPhoneNumber": "0343 447-4167",
+    "formattedAddress": "Chacabuco 398-350, E3105 Diamante, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47VXW9J9+FP",
+      "compoundCode": "W9J9+FP Diamante, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -32.0688651,
+      "longitude": -60.6307349
+    },
+    "rating": 4.2,
+    "googleMapsUri": "https://maps.google.com/?cid=16608987339605712103&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 26,
+    "displayName": {
+      "text": "Futbol 5 Urquiza",
+      "languageCode": "es"
+    }
+  }
+]

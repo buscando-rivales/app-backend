@@ -14,9 +14,7 @@ export class ClerkStrategy extends PassportStrategy(Strategy, 'clerk') {
   private readonly clerk: ReturnType<typeof Clerk>;
 
   constructor() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() as unknown as (
         request: Request,
       ) => string | null,

@@ -7,15 +7,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Configuración de validación global
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    transform: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
   // Configuración de Swagger
   const config = new DocumentBuilder()
     .setTitle('MatchFútbol API')
-    .setDescription('API para la aplicación de organización de partidos de fútbol')
+    .setDescription(
+      'API para la aplicación de organización de partidos de fútbol',
+    )
     .setVersion('1.0')
     .addBearerAuth()
     .build();

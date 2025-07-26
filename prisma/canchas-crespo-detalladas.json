@@ -1,0 +1,1385 @@
+[
+  {
+    "id": "ChIJi980HJ4ktJURxyZVN5NQh1E",
+    "formattedAddress": "L.N. Alem, E3116 Crespo, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47VXXM7W+JC",
+      "compoundCode": "XM7W+JC Crespo, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -32.0359349,
+      "longitude": -60.303918599999996
+    },
+    "rating": 4.7,
+    "googleMapsUri": "https://maps.google.com/?cid=5874752832146843335&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 165,
+    "displayName": {
+      "text": "Palmares - Futbol 5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJha8ySz9MtJURdVIDySRN584",
+    "nationalPhoneNumber": "0343 15-620-3676",
+    "formattedAddress": "Juan B. Justo, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6F6Q+GM",
+      "compoundCode": "6F6Q+GM Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.788669400000003,
+      "longitude": -60.510866500000006
+    },
+    "rating": 4.6,
+    "googleMapsUri": "https://maps.google.com/?cid=14908969911819915893&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ]
+    },
+    "userRatingCount": 153,
+    "displayName": {
+      "text": "Complejo 5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJV-hMAHpStJUR8Mxpn94K1AM",
+    "nationalPhoneNumber": "0343 423-1194",
+    "formattedAddress": "La Paz 383, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7F9G+XV",
+      "compoundCode": "7F9G+XV Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7300692,
+      "longitude": -60.5227889
+    },
+    "rating": 4.1,
+    "googleMapsUri": "https://maps.google.com/?cid=275857428449971440&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 9:00 AM – 12:00 AM",
+        "Tuesday: 9:00 AM – 12:00 AM",
+        "Wednesday: 9:00 AM – 12:00 AM",
+        "Thursday: 9:00 AM – 12:00 AM",
+        "Friday: 9:00 AM – 12:00 AM",
+        "Saturday: 9:00 AM – 12:00 AM",
+        "Sunday: 10:00 AM – 12:00 AM"
+      ],
+      "nextCloseTime": "2025-07-26T03:00:00Z"
+    },
+    "userRatingCount": 321,
+    "displayName": {
+      "text": "Los Angeles Football 5",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJdZ8IcIpStJURmY5XDF3a6Bs",
+    "nationalPhoneNumber": "0343 422-1266",
+    "formattedAddress": "Alameda de la Federación 635, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7FH7+MC",
+      "compoundCode": "7FH7+MC Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.720837199999995,
+      "longitude": -60.5364429
+    },
+    "rating": 4.3,
+    "googleMapsUri": "https://maps.google.com/?cid=2011097326794804889&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 4:00 PM – 12:00 AM",
+        "Tuesday: 4:00 PM – 12:00 AM",
+        "Wednesday: 4:00 PM – 12:00 AM",
+        "Thursday: 4:00 PM – 12:00 AM",
+        "Friday: 4:00 PM – 12:00 AM",
+        "Saturday: 4:00 PM – 12:00 AM",
+        "Sunday: 4:00 PM – 12:00 AM"
+      ],
+      "nextCloseTime": "2025-07-26T03:00:00Z"
+    },
+    "userRatingCount": 430,
+    "displayName": {
+      "text": "Apple Football 5",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJS0LHDsNPtJURmfwLs-4okAo",
+    "nationalPhoneNumber": "0343 446-2552",
+    "formattedAddress": "E3106 Paraná, Entre Ríos Province, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6GJ9+JC",
+      "compoundCode": "6GJ9+JC Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.768386499999995,
+      "longitude": -60.481469800000006
+    },
+    "rating": 4.8,
+    "googleMapsUri": "https://maps.google.com/?cid=761153342696848537&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 153,
+    "displayName": {
+      "text": "Complejo f5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJzYrp-HBStJURYn6IO4Pv718",
+    "nationalPhoneNumber": "0343 429-3344",
+    "formattedAddress": "Salta 698, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7FFH+95",
+      "compoundCode": "7FFH+95 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7265554,
+      "longitude": -60.5220453
+    },
+    "rating": 4.2,
+    "googleMapsUri": "https://maps.google.com/?cid=6913007299955555938&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "https://www.instagram.com/belgranosoccer/?hl=es",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 12,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 1:00 PM – 12:00 AM",
+        "Tuesday: 1:00 PM – 12:00 AM",
+        "Wednesday: 1:00 PM – 12:00 AM",
+        "Thursday: 1:00 PM – 12:00 AM",
+        "Friday: 1:00 PM – 12:00 AM",
+        "Saturday: 1:00 PM – 12:00 AM",
+        "Sunday: 12:00 – 11:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T03:00:00Z"
+    },
+    "userRatingCount": 271,
+    "displayName": {
+      "text": "Belgrano Soccer \"Fútbol 5 y 7\"",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJZ8yRm-NNtJUR_4NqF8KxrUE",
+    "nationalPhoneNumber": "0343 446-1573",
+    "formattedAddress": "Blas Parera 1253, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7G54+M9",
+      "compoundCode": "7G54+M9 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.740874899999998,
+      "longitude": -60.494066
+    },
+    "rating": 4.5,
+    "googleMapsUri": "https://maps.google.com/?cid=4732634230610887679&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 1,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 1,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 1,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 1,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 1,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 1,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 1,
+            "minute": 30
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 4:00 PM – 1:30 AM",
+        "Tuesday: 4:00 PM – 1:30 AM",
+        "Wednesday: 4:00 PM – 1:30 AM",
+        "Thursday: 4:00 PM – 1:30 AM",
+        "Friday: 4:00 PM – 1:30 AM",
+        "Saturday: 4:00 PM – 1:30 AM",
+        "Sunday: Closed"
+      ],
+      "nextCloseTime": "2025-07-26T04:30:00Z"
+    },
+    "userRatingCount": 111,
+    "displayName": {
+      "text": "Los cinco F5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJ7VuYinZOtJURP8Z9exr-9Vg",
+    "nationalPhoneNumber": "0343 622-2220",
+    "formattedAddress": "Francia 2466, E3102 KZN, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6GW7+VG",
+      "compoundCode": "6GW7+VG Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7528592,
+      "longitude": -60.48618499999999
+    },
+    "rating": 4.3,
+    "googleMapsUri": "https://maps.google.com/?cid=6410309034326214207&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "http://www.powerfutbol5.com.ar/",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 12,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 23,
+            "minute": 30
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 23,
+            "minute": 30
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 5:00 – 11:30 PM",
+        "Tuesday: 5:00 – 11:30 PM",
+        "Wednesday: 5:00 – 11:30 PM",
+        "Thursday: 5:00 – 11:30 PM",
+        "Friday: 5:00 – 11:30 PM",
+        "Saturday: 5:00 – 11:30 PM",
+        "Sunday: 12:00 – 11:30 PM"
+      ],
+      "nextCloseTime": "2025-07-26T02:30:00Z"
+    },
+    "userRatingCount": 304,
+    "displayName": {
+      "text": "Power Football 5",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJ02m14JUltJUR3Z1KpLQpJPk",
+    "formattedAddress": "Rivadavia 1114, E3116 Crespo, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47VXXM9Q+XQ",
+      "compoundCode": "XM9Q+XQ Crespo, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -32.0300169,
+      "longitude": -60.310547299999996
+    },
+    "rating": 5,
+    "googleMapsUri": "https://maps.google.com/?cid=17952519870432845277&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 3,
+    "displayName": {
+      "text": "Futbol 5 Predigger",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJf3ujVShPtJURpzYow5f_Etc",
+    "nationalPhoneNumber": "0343 613-3389",
+    "formattedAddress": "Fraternidad, Gdor. Manuel Crespo y, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7G87+XJ",
+      "compoundCode": "7G87+XJ Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7325269,
+      "longitude": -60.485979900000004
+    },
+    "rating": 5,
+    "googleMapsUri": "https://maps.google.com/?cid=15497730295014635175&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ]
+    },
+    "userRatingCount": 6,
+    "displayName": {
+      "text": "Complejo La mano de D10S F5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJZYJIXU5MtJURS1Mq2clgzyY",
+    "nationalPhoneNumber": "0343 620-1313",
+    "formattedAddress": "Ricardo Balbin 320, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6F9H+5G",
+      "compoundCode": "6F9H+5G Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.782047,
+      "longitude": -60.5212427
+    },
+    "rating": 4.4,
+    "googleMapsUri": "https://maps.google.com/?cid=2796560313668490059&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 22,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 10:00 AM – 10:00 PM",
+        "Tuesday: 10:00 AM – 10:00 PM",
+        "Wednesday: 10:00 AM – 10:00 PM",
+        "Thursday: 10:00 AM – 10:00 PM",
+        "Friday: 10:00 AM – 10:00 PM",
+        "Saturday: 10:00 AM – 10:00 PM",
+        "Sunday: 10:00 AM – 10:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T01:00:00Z"
+    },
+    "userRatingCount": 309,
+    "displayName": {
+      "text": "Futbol 5 Terra",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJ20fkvHZStJURg2CDBxrQeK4",
+    "nationalPhoneNumber": "0343 423-0538",
+    "formattedAddress": "Colón 639, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7F9M+V7",
+      "compoundCode": "7F9M+V7 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.730286600000003,
+      "longitude": -60.516780700000005
+    },
+    "rating": 4.1,
+    "googleMapsUri": "https://maps.google.com/?cid=12572027170018517123&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 330,
+    "displayName": {
+      "text": "Tennis Futbol 5 San Julian",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJoVoi5v5PtJURxwJCaH_CVho",
+    "nationalPhoneNumber": "0343 469-1736",
+    "formattedAddress": "Av. Guido Marizza 1466, E3107 San Benito, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6HG8+CF",
+      "compoundCode": "6HG8+CF San Benito, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.773990599999998,
+      "longitude": -60.433803499999996
+    },
+    "rating": 4.6,
+    "googleMapsUri": "https://maps.google.com/?cid=1897918145449034439&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "https://www.facebook.com/groups/1558954274473713/?ref=share_group_link",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 23,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 5:00 – 11:00 PM",
+        "Tuesday: 5:00 – 11:00 PM",
+        "Wednesday: 5:00 – 11:00 PM",
+        "Thursday: 5:00 – 11:00 PM",
+        "Friday: 5:00 – 11:00 PM",
+        "Saturday: 5:00 – 11:00 PM",
+        "Sunday: 5:00 – 11:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T02:00:00Z"
+    },
+    "userRatingCount": 42,
+    "displayName": {
+      "text": "Complejo La Magia F5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJQdL8lepNtJUR3D84senz0zg",
+    "nationalPhoneNumber": "0343 463-6087",
+    "formattedAddress": "Tratado del Pilar 526, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6FXQ+FP",
+      "compoundCode": "6FXQ+FP Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7513668,
+      "longitude": -60.5106684
+    },
+    "rating": 4.1,
+    "googleMapsUri": "https://maps.google.com/?cid=4094884671236095964&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 17,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 13,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 23,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 1:00 PM – 12:00 AM",
+        "Tuesday: 1:00 PM – 12:00 AM",
+        "Wednesday: 1:00 PM – 12:00 AM",
+        "Thursday: 1:00 PM – 12:00 AM",
+        "Friday: 1:00 PM – 12:00 AM",
+        "Saturday: 3:00 – 11:00 PM",
+        "Sunday: 5:00 – 11:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T03:00:00Z"
+    },
+    "userRatingCount": 84,
+    "displayName": {
+      "text": "Fuchibol Futbol 5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJ98AXwYZStJURohjYKsq0g7k",
+    "nationalPhoneNumber": "0343 15-611-8888",
+    "formattedAddress": "Diamante 367, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7F86+V3",
+      "compoundCode": "7F86+V3 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.732820099999994,
+      "longitude": -60.5397597
+    },
+    "rating": 4.3,
+    "googleMapsUri": "https://maps.google.com/?cid=13367726899360962722&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "https://instagram.com/lachiquitabasket?igshid=xvjqnn4c05au",
+    "userRatingCount": 113,
+    "displayName": {
+      "text": "La Cancha f5",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJpdVg78hNtJURmVEfpm3g_mU",
+    "nationalPhoneNumber": "0343 15-505-8484",
+    "formattedAddress": "José Maria Cocuzza, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7F3Q+55",
+      "compoundCode": "7F3Q+55 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7470814,
+      "longitude": -60.5120603
+    },
+    "rating": 4.5,
+    "googleMapsUri": "https://maps.google.com/?cid=7349558403458355609&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 539,
+    "displayName": {
+      "text": "Complejo Deportivo La Masia",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJny66nxJNtJURsqjKMn-lybA",
+    "nationalPhoneNumber": "0343 462-3500",
+    "formattedAddress": "Av. Churruarín 1551, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX7G32+PR",
+      "compoundCode": "7G32+PR Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7457111,
+      "longitude": -60.4979069
+    },
+    "rating": 4.2,
+    "googleMapsUri": "https://maps.google.com/?cid=12738894986725730482&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "https://instagram.com/paranasoccer?igshid=4ajqja4k3psp",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 22,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 14,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 14,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 14,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 14,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 14,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 10,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 22,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 2:00 PM – 12:00 AM",
+        "Tuesday: 2:00 PM – 12:00 AM",
+        "Wednesday: 2:00 PM – 12:00 AM",
+        "Thursday: 2:00 PM – 12:00 AM",
+        "Friday: 2:00 PM – 12:00 AM",
+        "Saturday: 10:00 AM – 10:00 PM",
+        "Sunday: 10:00 AM – 10:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T03:00:00Z"
+    },
+    "userRatingCount": 420,
+    "displayName": {
+      "text": "Parana Soccer-complejo fútbol y pádel",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJSVveZUxMtJURyPb18PFtOhQ",
+    "nationalPhoneNumber": "0343 15-610-1595",
+    "formattedAddress": "Av. de las Américas 4267, E3100 Paraná, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6FCJ+G9",
+      "compoundCode": "6FCJ+G9 Paraná, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.778633399999993,
+      "longitude": -60.5190614
+    },
+    "rating": 4.6,
+    "googleMapsUri": "https://maps.google.com/?cid=1457598315304974024&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 21,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 1,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 2,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 15,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 23,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 16,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 21,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: 3:00 – 11:00 PM",
+        "Tuesday: 3:00 – 11:00 PM",
+        "Wednesday: 3:00 – 11:00 PM",
+        "Thursday: 3:00 – 11:00 PM",
+        "Friday: 3:00 – 11:00 PM",
+        "Saturday: 4:00 – 9:00 PM",
+        "Sunday: 3:00 – 9:00 PM"
+      ],
+      "nextCloseTime": "2025-07-26T02:00:00Z"
+    },
+    "userRatingCount": 130,
+    "displayName": {
+      "text": "The Canchita Football 5",
+      "languageCode": "en"
+    }
+  }
+]

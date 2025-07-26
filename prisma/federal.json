@@ -1,0 +1,21 @@
+[
+  {
+    "id": "ChIJXy8Gmu_NtZUR2PwFPKHNba0",
+    "formattedAddress": "Av. Pres. Néstor Kirchner, Diamante, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47VXW9CG+RG",
+      "compoundCode": "W9CG+RG Diamante, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -32.077933,
+      "longitude": -60.623730699999996
+    },
+    "rating": 4.7,
+    "googleMapsUri": "https://maps.google.com/?cid=12496870633403448536&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 82,
+    "displayName": {
+      "text": "Complejo Deportivo La Chacra",
+      "languageCode": "es"
+    }
+  }
+]

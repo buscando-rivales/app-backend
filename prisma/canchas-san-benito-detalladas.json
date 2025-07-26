@@ -1,0 +1,167 @@
+[
+  {
+    "id": "ChIJtQlX-thOtJURAfWEgQRTRnw",
+    "nationalPhoneNumber": "0343 457-6749",
+    "formattedAddress": "Av. Friuli 897, San Benito, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6H84+67",
+      "compoundCode": "6H84+67 San Benito, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7843859,
+      "longitude": -60.44432690000001
+    },
+    "rating": 4.4,
+    "googleMapsUri": "https://maps.google.com/?cid=8954936187890758913&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ]
+    },
+    "userRatingCount": 78,
+    "displayName": {
+      "text": "Crack Futbol 5 - San Benito",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJhdR_ZOxPtJURRfNhvOTWeDM",
+    "nationalPhoneNumber": "0343 438-0542",
+    "formattedAddress": "6H66+3V, San Benito, Entre Ríos Province, Argentina",
+    "location": {
+      "latitude": -31.789812499999996,
+      "longitude": -60.43781249999999
+    },
+    "rating": 4.6,
+    "googleMapsUri": "https://maps.google.com/?cid=3708950571041026885&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 39,
+    "displayName": {
+      "text": "Cancha de fútbol 5 \"La familia\"",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJ-5mZR_tPtJUR2EZWjljWluI",
+    "nationalPhoneNumber": "011 7184-4985",
+    "formattedAddress": "Av. Guido Marizza Y RUTA 12, 3107 San Benito, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6HM8+GX",
+      "compoundCode": "6HM8+GX San Benito, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.7662126,
+      "longitude": -60.432598
+    },
+    "rating": 5,
+    "googleMapsUri": "https://maps.google.com/?cid=16327473174911796952&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "https://www.instagram.com/elpotrerovf2025?utm_source=qr&igsh=YThzeGtvaGh5MGsx",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 1,
+            "hour": 1,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 2,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 3,
+            "hour": 1,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 3,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 4,
+            "hour": 1,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 4,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 5,
+            "hour": 1,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 5,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 6,
+            "hour": 1,
+            "minute": 0
+          }
+        },
+        {
+          "open": {
+            "day": 6,
+            "hour": 9,
+            "minute": 0
+          },
+          "close": {
+            "day": 0,
+            "hour": 1,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: Closed",
+        "Tuesday: 9:00 AM – 1:00 AM",
+        "Wednesday: 9:00 AM – 1:00 AM",
+        "Thursday: 9:00 AM – 1:00 AM",
+        "Friday: 9:00 AM – 1:00 AM",
+        "Saturday: 9:00 AM – 1:00 AM",
+        "Sunday: 9:00 AM – 1:00 AM"
+      ],
+      "nextCloseTime": "2025-07-26T04:00:00Z"
+    },
+    "userRatingCount": 1,
+    "displayName": {
+      "text": "El Potrero \"cancha futbol 5\"",
+      "languageCode": "es"
+    }
+  }
+]
