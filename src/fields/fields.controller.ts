@@ -4,6 +4,7 @@ import {
   Param,
   Query,
   NotFoundException,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -153,7 +154,9 @@ export class FieldsController {
     status: 404,
     description: 'Cancha no encontrada',
   })
-  async findOne(@Param('id') id: string): Promise<FieldResponseDto> {
+  async findOne(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<FieldResponseDto> {
     const field = await this.fieldsService.findOne(id);
     if (!field) {
       throw new NotFoundException(`Field with ID ${id} not found`);

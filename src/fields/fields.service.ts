@@ -288,14 +288,14 @@ export class FieldsService {
       ORDER BY distance ASC
     `;
 
-    const fields = await this.prisma.$queryRawUnsafe<any[]>(
+    const fields = await this.prisma.$queryRawUnsafe(
       query,
       longitude,
       latitude,
       radiusInMeters,
     );
 
-    return fields.map((field) => ({
+    return (fields as any[]).map((field) => ({
       id: field.id,
       name: field.name,
       address: field.address,
