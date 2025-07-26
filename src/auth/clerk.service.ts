@@ -39,7 +39,6 @@ export class ClerkService {
       if (!clerkUser) {
         throw new UnauthorizedException('Usuario no encontrado');
       }
-
       // Buscar o crear el usuario en nuestra base de datos
       const user = await this.prisma.user.upsert({
         where: { id: clerkUser.id },
