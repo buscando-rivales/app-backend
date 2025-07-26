@@ -1,0 +1,61 @@
+[
+  {
+    "id": "ChIJz1651I9LtJURLhOMGsgiEXU",
+    "formattedAddress": "Los Jilgueros 130, E3101 Oro Verde, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX5FFH+2F",
+      "compoundCode": "5FFH+2F Oro Verde, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.8273833,
+      "longitude": -60.52132830000001
+    },
+    "rating": 4.8,
+    "googleMapsUri": "https://maps.google.com/?cid=8435561819875840814&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 37,
+    "displayName": {
+      "text": "El Chiri Futbol 5",
+      "languageCode": "es"
+    }
+  },
+  {
+    "id": "ChIJcdOHRI9LtJUR99NHFgqi1gw",
+    "formattedAddress": "Los Tordos 381, E3100 Oro Verde, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX5FGG+PP",
+      "compoundCode": "5FGG+PP Oro Verde, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.8232453,
+      "longitude": -60.5231472
+    },
+    "rating": 4.7,
+    "googleMapsUri": "https://maps.google.com/?cid=925104937678394359&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "userRatingCount": 147,
+    "displayName": {
+      "text": "Cancha Oro Verde Softbol",
+      "languageCode": "en"
+    }
+  },
+  {
+    "id": "ChIJtaECM4xLtJURCRLuHrc_iT4",
+    "nationalPhoneNumber": "0343 15-450-5961",
+    "formattedAddress": "Los Jacarandaes 54 E3101, E3101 Oro Verde, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX5FGM+73",
+      "compoundCode": "5FGM+73 Oro Verde, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.824298799999998,
+      "longitude": -60.5173492
+    },
+    "rating": 4.2,
+    "googleMapsUri": "https://maps.google.com/?cid=4506202957891375625&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "websiteUri": "http://caoroverde.blogspot.com.ar/",
+    "userRatingCount": 164,
+    "displayName": {
+      "text": "Athletic Club Oro Verde",
+      "languageCode": "en"
+    }
+  }
+]

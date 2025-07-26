@@ -36,6 +36,8 @@ model Field {
   amenities        Json?
   createdAt        DateTime                 @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
   updatedAt        DateTime                 @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  latitude         Float?
+  longitude        Float?
   games            Game[]
 
   @@index([location], map: "idx_fields_location", type: Gist)

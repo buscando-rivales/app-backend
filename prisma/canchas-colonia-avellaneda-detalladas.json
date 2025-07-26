@@ -1,0 +1,43 @@
+[
+  {
+    "id": "ChIJO9TGc_9PtJURywDfkAaXKMg",
+    "nationalPhoneNumber": "0343 15-456-5411",
+    "formattedAddress": "Irigoyen, René favaloro, Rene Favaloro &, E3007 Col. Avellaneda, Entre Ríos, Argentina",
+    "plusCode": {
+      "globalCode": "47WX6HPR+XP",
+      "compoundCode": "6HPR+XP Colonia Avellaneda, Entre Ríos Province, Argentina"
+    },
+    "location": {
+      "latitude": -31.762574899999997,
+      "longitude": -60.408221
+    },
+    "rating": 4.1,
+    "googleMapsUri": "https://maps.google.com/?cid=14422943861110145227&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAAYBCAA",
+    "regularOpeningHours": {
+      "openNow": true,
+      "periods": [
+        {
+          "open": {
+            "day": 0,
+            "hour": 0,
+            "minute": 0
+          }
+        }
+      ],
+      "weekdayDescriptions": [
+        "Monday: Open 24 hours",
+        "Tuesday: Open 24 hours",
+        "Wednesday: Open 24 hours",
+        "Thursday: Open 24 hours",
+        "Friday: Open 24 hours",
+        "Saturday: Open 24 hours",
+        "Sunday: Open 24 hours"
+      ]
+    },
+    "userRatingCount": 26,
+    "displayName": {
+      "text": "Fútbol 5 amistad colonial",
+      "languageCode": "es"
+    }
+  }
+]
