@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "npx prisma generate && npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
   "builds": [
     {
       "src": "src/main.ts",
