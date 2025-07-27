@@ -64,7 +64,7 @@ Librería de navegación: React Navigation
 
 Autenticación: Clerk (con integración al backend)
 
-Manejo de estado: Zustand 
+Manejo de estado: Zustand
 
 Push Notifications: Firebase Cloud Messaging (FCM)
 
@@ -85,3 +85,13 @@ Base de datos: PostgreSQL (provisionada por Supabase)
 Realtime: Supabase Realtime (solo si es necesario para notificaciones de partidos o cambios de estado)
 
 Mensajería push: Firebase Cloud Messaging (desde el backend o usando un servidor externo)
+
+
+## 7. Service Implementation Status
+
+- ✅ UserService
+- ✅ GameService
+- ⬜ MatchService
+- ⬜ ChatService
+- ⬜ NotificationService
+- ⬜ MetricsService
