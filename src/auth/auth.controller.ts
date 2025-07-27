@@ -17,7 +17,10 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
+    // 1. Validar token Clerk y obtener usuario
     const user = await this.clerkService.verifyAndUpsertUser(loginDto.token);
-    return user;
+    // 2. Generar y devolver token propio
+    const appToken = this.clerkService.generateAppToken(user);
+    return { token: appToken };
   }
 }

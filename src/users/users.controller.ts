@@ -14,13 +14,13 @@ export class UsersController {
 
   @Get('profile')
   @ApiOperation({ summary: 'Get current user profile' })
-  async getProfile(@CurrentUser() userId: string) {
+  getProfile(@CurrentUser() userId: string) {
     return this.usersService.findUserById(userId);
   }
 
   @Put('profile')
   @ApiOperation({ summary: 'Update current user profile' })
-  async updateProfile(
+  updateProfile(
     @CurrentUser() userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
