@@ -6,7 +6,7 @@ import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async createOrUpdateUser(userData: {
+  createOrUpdateUser(userData: {
     id: string;
     email: string;
     firstName: string;
@@ -26,26 +26,26 @@ export class UsersService {
     });
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  createUser(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
       data: createUserDto,
     });
   }
 
-  async findUserById(id: string) {
+  findUserById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
     });
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+  updateUser(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
   }
 
-  async updateUserRating(id: string, rating: number) {
+  updateUserRating(id: string, rating: number) {
     return this.prisma.user.update({
       where: { id },
       data: { rating },

@@ -10,7 +10,7 @@ import { ClerkService } from './clerk.service';
 export class ClerkAuthGuard implements CanActivate {
   constructor(private clerkService: ClerkService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -27,11 +27,11 @@ export class ClerkAuthGuard implements CanActivate {
     }
 
     try {
-      const user = await this.clerkService.verifyAndUpsertUser(token);
-      // Agregamos el usuario al request para poder accederlo en los controladores
-      request.user = user;
+      // Validar nuestro JWT propio
+      const payload = this.clerkService.verifyAppToken(token as string);
+      request.user = payload;
       return true;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Token inválido');
     }
   }
