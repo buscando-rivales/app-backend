@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: app-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build && npm run prisma:generate
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DATABASE_URL
+        value: postgresql://postgres:h8cp7CoMQ4tOwhAelThdj7n4LfNr@db.fvjuofyociamjnvjkjhj.supabase.co:5432/postgres
+      - key: CLERK_SECRET_KEY
+        value: sk_test_pE6DNfV1tEUoxKplYXtrs65CC4UnFVdoVW0Pc0AwMt
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+        value: pk_test_ZHJpdmluZy1hbGJhY29yZS02MS5jbGVyay5hY2NvdW50cy5kZXYk
+      - key: JWT_SECRET
+        value: Zx3r3iqP1Any8baw2uBdJSEZBiKrYFpULApmnlhYBtDPTz5iWd3qzhF90MTzhv8kxwXuvNZs64VaBuoqxGA75A==

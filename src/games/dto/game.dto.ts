@@ -28,6 +28,7 @@ class AvailableSpotsNotGreaterThanTotal
       : true;
   }
   defaultMessage(args: ValidationArguments) {
+    console.log(args);
     return 'availableSpots cannot be greater than totalSpots';
   }
 }
