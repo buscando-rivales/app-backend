@@ -12,36 +12,32 @@ describe('GamesService', () => {
         {
           provide: PrismaService,
           useValue: {
-            // Mock de PrismaService
             game: {
               findMany: jest.fn(() =>
-                Promise.resolve({
-                  data: [
-                    {
-                      id: '1',
-                      name: 'Game 1',
-                      createdAt: new Date(),
-                      updatedAt: new Date(),
-                    },
-                  ],
-                  total: 1,
-                  hasNextPage: false,
-                  hasPreviousPage: false,
-                  limit: 10,
-                  page: 1,
-                  totalPages: 1,
-                }),
+                Promise.resolve([
+                  { id: '1', name: 'Game 1' },
+                  { id: '2', name: 'Game 2' },
+                ]),
               ),
               findUnique: jest.fn(({ where: { id } }) =>
-                Promise.resolve({
-                  id,
-                  name: `Game ${id}`,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                }),
+                Promise.resolve({ id, name: `Game ${id}` }),
               ),
-              $queryRawUnsafe: jest.fn(),
             },
+            $queryRawUnsafe: jest.fn(() =>
+              Promise.resolve([
+                {
+                  field_name: 'Field A',
+                  distance_meters: 500,
+                  game_id: '1',
+                  start_time: '2025-08-01T18:00:00.000Z',
+                  available_spots: 5,
+                  price_per_player: '100',
+                  organizer_name: 'John Doe',
+                  game_level: 1,
+                  game_type: 5,
+                },
+              ]),
+            ),
           },
         },
       ],
@@ -57,22 +53,10 @@ describe('GamesService', () => {
   describe('findAll', () => {
     it('debería devolver una lista de juegos', async () => {
       const result = await gamesService.findAll();
-      expect(result).toEqual({
-        data: [
-          {
-            id: '1',
-            name: 'Game 1',
-            createdAt: expect.any(Date),
-            updatedAt: expect.any(Date),
-          },
-        ],
-        total: 1,
-        page: 1,
-        limit: 10,
-        totalPages: 1,
-        hasNextPage: false,
-        hasPreviousPage: false,
-      });
+      expect(result).toEqual([
+        { id: '1', name: 'Game 1' },
+        { id: '2', name: 'Game 2' },
+      ]);
     });
   });
 
@@ -80,31 +64,29 @@ describe('GamesService', () => {
     it('debería devolver un juego por ID', async () => {
       const id = '1';
       const result = await gamesService.findOne(id);
-      expect(result).toEqual({
-        id,
-        name: `Game ${id}`,
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
-      });
+      expect(result).toEqual({ id, name: `Game ${id}` });
     });
   });
 
   describe('findNearby', () => {
-    it('debería devolver una lista de juegos cercanos', async () => {
+    it('debería devolver una lista de juegos cercanos agrupados por cancha', async () => {
       const mockQueryResult = [
         {
-          game_id: '1',
           field_name: 'Field A',
           distance_meters: 500,
-          start_time: new Date(),
-          available_spots: 5,
-          price_per_player: 100,
+          games: [
+            {
+              game_id: '1',
+              start_time: '2025-08-01T18:00:00.000Z',
+              available_spots: 5,
+              price_per_player: '100',
+              organizer_name: 'John Doe',
+              game_level: 1,
+              game_type: 5,
+            },
+          ],
         },
       ];
-
-      gamesService['prisma'] = {
-        $queryRawUnsafe: jest.fn().mockResolvedValue(mockQueryResult),
-      } as any;
 
       const result = await gamesService.findNearby(40.7128, -74.006, 1000);
       expect(result).toEqual(mockQueryResult);
