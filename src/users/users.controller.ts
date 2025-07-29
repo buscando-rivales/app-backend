@@ -1,20 +1,21 @@
-import { Controller, Get, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Put, Body, UseGuards, Req } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
 import { CurrentUser } from '../decorators/user.decorator';
-import { ClerkAuthGuard as AuthGuard } from '../auth/auth.guard';
+import { ClerkAuthGuard } from '../auth/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
-@UseGuards(AuthGuard)
+@UseGuards(ClerkAuthGuard)
 @ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('profile')
   @ApiOperation({ summary: 'Get current user profile' })
-  getProfile(@CurrentUser() userId: string) {
+  getProfile(@Req() req) {
+    const userId = req.user.sub;
     return this.usersService.findUserById(userId);
   }
 

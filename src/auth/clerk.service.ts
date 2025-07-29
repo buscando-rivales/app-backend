@@ -53,11 +53,13 @@ export class ClerkService {
         update: {
           email: clerkUser.emailAddresses[0]?.emailAddress,
           fullName: clerkUser.fullName || '',
+          avatarUrl: clerkUser.imageUrl || null,
         },
         create: {
           id: clerkUser.id,
           email: clerkUser.emailAddresses[0]?.emailAddress,
           fullName: clerkUser.fullName || '',
+          avatarUrl: clerkUser.imageUrl || null,
         },
       });
 

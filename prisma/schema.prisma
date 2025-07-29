@@ -16,6 +16,8 @@ model User {
   rating         Decimal?       @default(5.00) @db.Decimal(3, 2)
   createdAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
   updatedAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  nickname       String?        @unique(map: "users_nickname_unique")
+  roles          String[]       @default(["jugador"])
   chatMessages   ChatMessage[]
   gamePlayers    GamePlayer[]
   organizedGames Game[]         @relation("Organizer")
@@ -65,6 +67,7 @@ model Game {
 
   @@index([fieldId], map: "idx_games_field_id")
   @@index([startTime], map: "idx_games_start_time")
+  @@index([status, startTime, pricePerPlayer, gameType], map: "idx_games_status_start_price_type")
   @@map("games")
 }
 
