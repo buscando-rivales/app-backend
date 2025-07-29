@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -16,10 +17,12 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { GamesService } from './games.service';
 import { CreateGameDto, UpdateGameDto } from './dto/game.dto';
 import { ClerkAuthGuard } from '../auth/auth.guard';
+import { ParseUUIDPipe } from '@nestjs/common/pipes';
 
 @ApiTags('games')
 @ApiBearerAuth()
@@ -45,12 +48,26 @@ export class GamesController {
     return this.gamesService.findAll();
   }
 
+  @Get('nearby')
+  @ApiOperation({ summary: 'Get nearby games' })
+  @ApiQuery({ name: 'latitude', type: Number, required: true })
+  @ApiQuery({ name: 'longitude', type: Number, required: true })
+  @ApiQuery({ name: 'radius', type: Number, required: true })
+  @ApiResponse({ status: 200, description: 'List of nearby games' })
+  findNearby(
+    @Query('latitude') latitude: number,
+    @Query('longitude') longitude: number,
+    @Query('radius') radius: number,
+  ) {
+    return this.gamesService.findNearby(latitude, longitude, radius);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get a game by ID' })
   @ApiParam({ name: 'id', type: String })
   @ApiResponse({ status: 200, description: 'Game found' })
   @ApiResponse({ status: 404, description: 'Game not found' })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.gamesService.findOne(id);
   }
 

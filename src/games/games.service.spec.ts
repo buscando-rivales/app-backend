@@ -40,6 +40,7 @@ describe('GamesService', () => {
                   updatedAt: new Date(),
                 }),
               ),
+              $queryRawUnsafe: jest.fn(),
             },
           },
         },
@@ -85,6 +86,28 @@ describe('GamesService', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
+    });
+  });
+
+  describe('findNearby', () => {
+    it('debería devolver una lista de juegos cercanos', async () => {
+      const mockQueryResult = [
+        {
+          game_id: '1',
+          field_name: 'Field A',
+          distance_meters: 500,
+          start_time: new Date(),
+          available_spots: 5,
+          price_per_player: 100,
+        },
+      ];
+
+      gamesService['prisma'] = {
+        $queryRawUnsafe: jest.fn().mockResolvedValue(mockQueryResult),
+      } as any;
+
+      const result = await gamesService.findNearby(40.7128, -74.006, 1000);
+      expect(result).toEqual(mockQueryResult);
     });
   });
 });
