@@ -6,7 +6,9 @@ import {
   IsNumber,
   Min,
   Max,
+  Validate,
 } from 'class-validator';
+import { UniqueNicknameValidator } from '../validators/unique-nickname.validator';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -54,4 +56,19 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   avatarUrl?: string;
+
+  // Rating del 1 al 5, opcional entero
+  @ApiProperty({ required: false, default: 5.0 })
+  @IsNumber()
+  @Min(1)
+  @Max(5)
+  @IsOptional()
+  rating?: number;
+
+  //nikename opcional
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  @Validate(UniqueNicknameValidator)
+  nickname?: string;
 }

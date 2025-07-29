@@ -1,0 +1,16 @@
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMwUUhmaE94aDhGSHZrbTJIenhlWXVBVEYxVCIsImVtYWlsIjoibHVjaWFuby56YXBhdGEzMTRAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJsdWNpYW5vIHphcGF0YSIsInJvbGVzIjpbImp1Z2Fkb3IiXSwiaWF0IjoxNzUzODI2ODg0LCJleHAiOjE3NTQ0MzE2ODR9.Bmn0Ihf9ym1n2a4k1NI_J6uiau9_z__88CsDTQzXc7s
+
+### Obtener perfil del usuario actual
+GET http://localhost:4000/users/profile
+Authorization: Bearer {{authToken}}
+
+### Actualizar perfil del usuario actual
+PUT http://localhost:4000/users/profile
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+
+  "nickname": "lucho314"
+
+}

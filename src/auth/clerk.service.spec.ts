@@ -97,11 +97,13 @@ describe('ClerkService', () => {
         update: {
           email: 'test@example.com',
           fullName: 'Test User',
+          avatarUrl: null, // Ajuste para incluir avatarUrl
         },
         create: {
           id: 'user-id',
           email: 'test@example.com',
           fullName: 'Test User',
+          avatarUrl: null, // Ajuste para incluir avatarUrl
         },
       });
       expect(user).toEqual({
