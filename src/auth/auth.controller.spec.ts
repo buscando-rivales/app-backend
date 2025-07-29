@@ -14,6 +14,8 @@ const mockClerkService: Partial<ClerkService> = {
       phone: null,
       avatarUrl: null,
       rating: null,
+      nickname: null,
+      roles: ['jugador'],
       createdAt: new Date(),
       updatedAt: new Date(),
     }),
