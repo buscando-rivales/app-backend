@@ -19,7 +19,25 @@ describe('GamesController', () => {
             findOne: jest.fn((id: string) =>
               Promise.resolve({ id, name: `Game ${id}` }),
             ),
-            findNearby: jest.fn(),
+            findNearby: jest.fn(() =>
+              Promise.resolve([
+                {
+                  field_name: 'Field A',
+                  distance_meters: 500,
+                  games: [
+                    {
+                      game_id: '1',
+                      start_time: '2025-08-01T18:00:00.000Z',
+                      available_spots: 5,
+                      price_per_player: '100',
+                      organizer_name: 'John Doe',
+                      game_level: 1,
+                      game_type: 5,
+                    },
+                  ],
+                },
+              ]),
+            ),
           },
         },
         {
@@ -55,23 +73,24 @@ describe('GamesController', () => {
 
   describe('findNearby', () => {
     it('debería devolver una lista de juegos cercanos', async () => {
-      const mockGames = [
+      const result = await gamesController.findNearby(40.7128, -74.006, 1000);
+      expect(result).toEqual([
         {
-          game_id: '1',
           field_name: 'Field A',
           distance_meters: 500,
-          start_time: new Date(),
-          available_spots: 5,
-          price_per_player: 100,
+          games: [
+            {
+              game_id: '1',
+              start_time: '2025-08-01T18:00:00.000Z',
+              available_spots: 5,
+              price_per_player: '100',
+              organizer_name: 'John Doe',
+              game_level: 1,
+              game_type: 5,
+            },
+          ],
         },
-      ];
-
-      jest
-        .spyOn(gamesController['gamesService'], 'findNearby')
-        .mockResolvedValue(mockGames);
-
-      const result = await gamesController.findNearby(40.7128, -74.006, 1000);
-      expect(result).toEqual(mockGames);
+      ]);
     });
   });
 });
