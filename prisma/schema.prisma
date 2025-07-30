@@ -8,20 +8,22 @@ datasource db {
 }
 
 model User {
-  id             String         @id
-  email          String         @unique
-  fullName       String         @map("full_name")
-  phone          String?
-  avatarUrl      String?        @map("avatar_url")
-  rating         Decimal?       @default(5.00) @db.Decimal(3, 2)
-  createdAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  nickname       String?        @unique(map: "users_nickname_unique")
-  roles          String[]       @default(["jugador"])
-  chatMessages   ChatMessage[]
-  gamePlayers    GamePlayer[]
-  organizedGames Game[]         @relation("Organizer")
-  notifications  Notification[]
+  id                                         String         @id
+  email                                      String         @unique
+  fullName                                   String         @map("full_name")
+  phone                                      String?
+  avatarUrl                                  String?        @map("avatar_url")
+  rating                                     Decimal?       @default(5.00) @db.Decimal(3, 2)
+  createdAt                                  DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamptz(6)
+  updatedAt                                  DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  nickname                                   String?        @unique(map: "users_nickname_unique")
+  roles                                      String[]       @default(["jugador"])
+  chatMessages                               ChatMessage[]
+  gamePlayers                                GamePlayer[]
+  organizedGames                             Game[]         @relation("Organizer")
+  notifications                              Notification[]
+  user_friends_user_friends_friend_idTousers user_friends[] @relation("user_friends_friend_idTousers")
+  user_friends_user_friends_user_idTousers   user_friends[] @relation("user_friends_user_idTousers")
 
   @@map("users")
 }
@@ -138,4 +140,19 @@ model spatial_ref_sys {
   auth_srid Int?
   srtext    String? @db.VarChar(2048)
   proj4text String? @db.VarChar(2048)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user_friends {
+  id                                  String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id                             String
+  friend_id                           String
+  status                              String
+  created_at                          DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at                          DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  users_user_friends_friend_idTousers User     @relation("user_friends_friend_idTousers", fields: [friend_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_user_friends_user_idTousers   User     @relation("user_friends_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, friend_id])
 }
