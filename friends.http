@@ -1,0 +1,51 @@
+### Variables
+@baseURL = http://localhost:4000
+@authToken =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMwUUhmaE94aDhGSHZrbTJIenhlWXVBVEYxVCIsImVtYWlsIjoibHVjaWFuby56YXBhdGEzMTRAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJsdWNpYW5vIHphcGF0YSIsInJvbGVzIjpbXSwiaWF0IjoxNzUzNzUyMTExLCJleHAiOjE3NTQzNTY5MTF9.30hIBsZn_jQq-gL6V4zd2rg8jnxTSOw85KfzEf73BJU
+
+### 1. Agregar un amigo
+POST {{baseURL}}/friends
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "friendId": "user_abc123"
+}
+
+### 2. Aceptar solicitud de amistad
+PATCH {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}
+
+### 3. Rechazar solicitud de amistad
+PATCH {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "rejected"
+}
+
+### 4. Bloquear usuario
+PATCH {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "blocked"
+}
+
+### 5. Obtener lista de amigos
+GET {{baseURL}}/friends
+Authorization: Bearer {{authToken}}
+
+### 6. Obtener solicitudes pendientes
+GET {{baseURL}}/friends/requests
+Authorization: Bearer {{authToken}}
+
+### 7. Eliminar amigo
+DELETE {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+Authorization: Bearer {{authToken}}
