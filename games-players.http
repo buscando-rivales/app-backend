@@ -1,0 +1,46 @@
+### Variables
+@baseUrl = http://localhost:4000
+@token = {{$dotenv TEST_AUTH_TOKEN}}
+@gameId = 669247c1-7ba8-4e73-a1cc-4b9256f19c4f
+@playerId = user_123456789
+
+### Join a game
+POST {{baseUrl}}/games/{{gameId}}/join
+Authorization: Bearer {{token}}
+
+### Leave a game
+POST {{baseUrl}}/games/{{gameId}}/leave
+Authorization: Bearer {{token}}
+
+### Get game players
+GET {{baseUrl}}/games/{{gameId}}/players
+Authorization: Bearer {{token}}
+
+### Kick a player (only organizer)
+POST {{baseUrl}}/games/{{gameId}}/kick/{{playerId}}
+Authorization: Bearer {{token}}
+
+### Create a new game (for testing)
+POST {{baseUrl}}/games
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fieldId": "550e8400-e29b-41d4-a716-446655440001",
+  "gameType": 5,
+  "gameLevel": 1,
+  "startTime": "2025-08-01T18:00:00.000Z",
+  "endTime": "2025-08-01T20:00:00.000Z",
+  "totalSpots": 10,
+  "availableSpots": 10,
+  "pricePerPlayer": 15.00,
+  "status": "open"
+}
+
+### Get all games
+GET {{baseUrl}}/games
+Authorization: Bearer {{token}}
+
+### Get game by ID
+GET {{baseUrl}}/games/{{gameId}}
+Authorization: Bearer {{token}}

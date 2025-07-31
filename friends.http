@@ -1,6 +1,6 @@
 ### Variables
 @baseURL = http://localhost:4000
-@authToken =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMwUUhmaE94aDhGSHZrbTJIenhlWXVBVEYxVCIsImVtYWlsIjoibHVjaWFuby56YXBhdGEzMTRAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJsdWNpYW5vIHphcGF0YSIsInJvbGVzIjpbXSwiaWF0IjoxNzUzNzUyMTExLCJleHAiOjE3NTQzNTY5MTF9.30hIBsZn_jQq-gL6V4zd2rg8jnxTSOw85KfzEf73BJU
+@authToken ={{$dotenv TEST_AUTH_TOKEN}}
 
 ### 1. Agregar un amigo
 POST {{baseURL}}/friends
