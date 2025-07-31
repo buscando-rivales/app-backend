@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { PrismaService } from '../services/prisma.service';
+import { NotificationService } from '../notifications/notification.service';
 import { FriendStatus } from './dto/friend.dto';
 
 describe('FriendsService', () => {
@@ -24,6 +25,11 @@ describe('FriendsService', () => {
     },
   };
 
+  const mockNotificationService = {
+    notifyFriendRequest: jest.fn(),
+    notifyFriendAccept: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -31,6 +37,10 @@ describe('FriendsService', () => {
         {
           provide: PrismaService,
           useValue: mockPrismaService,
+        },
+        {
+          provide: NotificationService,
+          useValue: mockNotificationService,
         },
       ],
     }).compile();
@@ -63,6 +73,13 @@ describe('FriendsService', () => {
           avatarUrl: null,
           rating: null,
         },
+        users_user_friends_user_idTousers: {
+          id: userId,
+          fullName: 'Current User',
+          nickname: 'currentuser',
+          avatarUrl: null,
+          rating: null,
+        },
       };
 
       mockPrismaService.user.findUnique.mockResolvedValue(mockUser);
@@ -77,6 +94,11 @@ describe('FriendsService', () => {
         where: { id: friendId },
       });
       expect(mockPrismaService.user_friends.create).toHaveBeenCalled();
+      expect(mockNotificationService.notifyFriendRequest).toHaveBeenCalledWith(
+        friendId,
+        'currentuser',
+        userId,
+      );
     });
 
     it('should throw BadRequestException when user tries to add themselves', async () => {
@@ -114,6 +136,11 @@ describe('FriendsService', () => {
     const updateDto = { status: FriendStatus.ACCEPTED };
 
     it('should update friend request successfully', async () => {
+      const mockAccepterUser = {
+        fullName: 'Current User',
+        nickname: 'currentuser',
+      };
+
       const mockRequest = {
         id: requestId,
         user_id: 'user2',
@@ -135,6 +162,7 @@ describe('FriendsService', () => {
       };
 
       mockPrismaService.user_friends.findFirst.mockResolvedValue(mockRequest);
+      mockPrismaService.user.findUnique.mockResolvedValue(mockAccepterUser);
       mockPrismaService.user_friends.update.mockResolvedValue(
         mockUpdatedRequest,
       );
@@ -154,6 +182,11 @@ describe('FriendsService', () => {
         },
         include: expect.any(Object),
       });
+      expect(mockNotificationService.notifyFriendAccept).toHaveBeenCalledWith(
+        'user2',
+        'currentuser',
+        userId,
+      );
     });
 
     it('should throw NotFoundException when request does not exist', async () => {

@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { GamesModule } from './games/games.module';
 import { FriendsModule } from './friends/friends.module';
+import { NotificationModule } from './notifications/notification.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FriendsModule } from './friends/friends.module';
     FieldsModule,
     GamesModule,
     FriendsModule,
+    NotificationModule,
   ],
   providers: [PrismaService],
 })

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { PrismaService } from '../services/prisma.service';
+import { NotificationService } from '../notifications/notification.service';
 
 describe('GamesService', () => {
   let gamesService: GamesService;
@@ -25,6 +26,11 @@ describe('GamesService', () => {
     $queryRawUnsafe: jest.fn(),
   };
 
+  const mockNotificationService = {
+    notifyGameJoin: jest.fn(),
+    createNotification: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -33,10 +39,17 @@ describe('GamesService', () => {
           provide: PrismaService,
           useValue: mockPrismaService,
         },
+        {
+          provide: NotificationService,
+          useValue: mockNotificationService,
+        },
       ],
     }).compile();
 
     gamesService = module.get<GamesService>(GamesService);
+
+    // Limpiar mocks antes de cada test
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
