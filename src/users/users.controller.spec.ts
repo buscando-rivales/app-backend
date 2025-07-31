@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
+import { SearchUsersDto } from './dto/user-search.dto';
 import { ClerkAuthGuard } from '../auth/auth.guard';
 
 describe('UsersController', () => {
@@ -25,6 +26,7 @@ describe('UsersController', () => {
   const mockUsersService = {
     findUserById: jest.fn(),
     updateUser: jest.fn(),
+    searchUsersByNickname: jest.fn(),
   };
 
   const mockRequest = {
@@ -117,6 +119,67 @@ describe('UsersController', () => {
         updateUserDto,
       );
       expect(result).toEqual(updatedUser);
+    });
+  });
+
+  describe('searchUsers', () => {
+    it('should search users by nickname successfully', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'test',
+        limit: 10,
+      };
+
+      const mockSearchResponse = {
+        users: [
+          {
+            id: 'user-1',
+            fullName: 'Test User 1',
+            nickname: 'testuser1',
+            avatarUrl: 'https://example.com/avatar1.jpg',
+            rating: 4.5,
+          },
+          {
+            id: 'user-2',
+            fullName: 'Test User 2',
+            nickname: 'testuser2',
+            avatarUrl: null,
+            rating: null,
+          },
+        ],
+        total: 2,
+        query: 'test',
+      };
+
+      mockUsersService.searchUsersByNickname.mockResolvedValue(
+        mockSearchResponse,
+      );
+
+      const result = await controller.searchUsers(searchDto);
+
+      expect(usersService.searchUsersByNickname).toHaveBeenCalledWith(
+        searchDto,
+      );
+      expect(result).toEqual(mockSearchResponse);
+    });
+
+    it('should handle empty search results', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'nonexistent',
+      };
+
+      const mockSearchResponse = {
+        users: [],
+        total: 0,
+        query: 'nonexistent',
+      };
+
+      mockUsersService.searchUsersByNickname.mockResolvedValue(
+        mockSearchResponse,
+      );
+
+      const result = await controller.searchUsers(searchDto);
+
+      expect(result).toEqual(mockSearchResponse);
     });
   });
 });
