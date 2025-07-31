@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { PrismaService } from '../services/prisma.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { SearchUsersDto } from './dto/user-search.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -27,6 +28,7 @@ describe('UsersService', () => {
       findUnique: jest.fn(),
       update: jest.fn(),
       upsert: jest.fn(),
+      findMany: jest.fn(),
     },
   };
 
@@ -193,6 +195,146 @@ describe('UsersService', () => {
         data: { rating: newRating },
       });
       expect(result).toEqual(updatedUser);
+    });
+  });
+
+  describe('searchUsersByNickname', () => {
+    it('should search users by nickname successfully', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'test',
+        limit: 10,
+      };
+
+      const mockSearchResults = [
+        {
+          id: 'user-1',
+          fullName: 'Test User 1',
+          nickname: 'testuser1',
+          avatarUrl: 'https://example.com/avatar1.jpg',
+          rating: 4.5,
+        },
+        {
+          id: 'user-2',
+          fullName: 'Test User 2',
+          nickname: 'testuser2',
+          avatarUrl: null,
+          rating: null,
+        },
+      ];
+
+      mockPrismaService.user.findMany.mockResolvedValue(mockSearchResults);
+
+      const result = await service.searchUsersByNickname(searchDto);
+
+      expect(prismaService.user.findMany).toHaveBeenCalledWith({
+        where: {
+          nickname: {
+            not: null,
+            contains: 'test',
+            mode: 'insensitive',
+          },
+        },
+        select: {
+          id: true,
+          fullName: true,
+          nickname: true,
+          avatarUrl: true,
+          rating: true,
+        },
+        take: 10,
+        orderBy: [
+          {
+            nickname: 'asc',
+          },
+          {
+            rating: 'desc',
+          },
+        ],
+      });
+
+      expect(result).toEqual({
+        users: [
+          {
+            id: 'user-1',
+            fullName: 'Test User 1',
+            nickname: 'testuser1',
+            avatarUrl: 'https://example.com/avatar1.jpg',
+            rating: 4.5,
+          },
+          {
+            id: 'user-2',
+            fullName: 'Test User 2',
+            nickname: 'testuser2',
+            avatarUrl: null,
+            rating: null,
+          },
+        ],
+        total: 2,
+        query: 'test',
+      });
+    });
+
+    it('should filter out users with null nicknames', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'test',
+      };
+
+      const mockSearchResults = [
+        {
+          id: 'user-1',
+          fullName: 'Test User 1',
+          nickname: 'testuser1',
+          avatarUrl: null,
+          rating: null,
+        },
+        {
+          id: 'user-2',
+          fullName: 'Test User 2',
+          nickname: null, // Este debería ser filtrado
+          avatarUrl: null,
+          rating: null,
+        },
+      ];
+
+      mockPrismaService.user.findMany.mockResolvedValue(mockSearchResults);
+
+      const result = await service.searchUsersByNickname(searchDto);
+
+      expect(result.users).toHaveLength(1);
+      expect(result.users[0].nickname).toBe('testuser1');
+      expect(result.total).toBe(1);
+    });
+
+    it('should use default limit when not provided', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'test',
+      };
+
+      mockPrismaService.user.findMany.mockResolvedValue([]);
+
+      await service.searchUsersByNickname(searchDto);
+
+      expect(prismaService.user.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          take: 10, // Default limit
+        }),
+      );
+    });
+
+    it('should return empty results when no users found', async () => {
+      const searchDto: SearchUsersDto = {
+        query: 'nonexistent',
+      };
+
+      mockPrismaService.user.findMany.mockResolvedValue([]);
+
+      const result = await service.searchUsersByNickname(searchDto);
+
+      expect(result).toEqual({
+        users: [],
+        total: 0,
+        query: 'nonexistent',
+      });
     });
   });
 });
