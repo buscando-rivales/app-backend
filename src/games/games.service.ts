@@ -7,10 +7,14 @@ import {
 import { PrismaService } from '../services/prisma.service';
 import { CreateGameDto, UpdateGameDto } from './dto/game.dto';
 import { GamePlayersResponseDto } from './dto/game-player.dto';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable()
 export class GamesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationService: NotificationService,
+  ) {}
 
   create(data: CreateGameDto & { organizerId: string }) {
     return this.prisma.game.create({ data });
@@ -179,6 +183,22 @@ export class GamesService {
         },
       });
 
+      // Enviar notificación al organizador del juego
+      try {
+        await this.notificationService.notifyGameJoin(
+          game.organizerId,
+          updatedPlayer.player.nickname || updatedPlayer.player.fullName,
+          {
+            gameId: game.id,
+            gameType: game.gameType,
+            startTime: game.startTime,
+          },
+        );
+      } catch (error) {
+        // No fallar el join si la notificación falla
+        console.error('Error enviando notificación de join:', error);
+      }
+
       return updatedPlayer;
     }
 
@@ -207,6 +227,22 @@ export class GamesService {
       where: { id: gameId },
       data: { availableSpots: { decrement: 1 } },
     });
+
+    // Enviar notificación al organizador del juego
+    try {
+      await this.notificationService.notifyGameJoin(
+        game.organizerId,
+        newPlayer.player.nickname || newPlayer.player.fullName,
+        {
+          gameId: game.id,
+          gameType: game.gameType,
+          startTime: game.startTime,
+        },
+      );
+    } catch (error) {
+      // No fallar el join si la notificación falla
+      console.error('Error enviando notificación de join:', error);
+    }
 
     return newPlayer;
   }

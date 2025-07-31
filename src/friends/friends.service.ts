@@ -5,6 +5,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
+import { NotificationService } from '../notifications/notification.service';
 import {
   AddFriendDto,
   UpdateFriendRequestDto,
@@ -16,7 +17,10 @@ import {
 
 @Injectable()
 export class FriendsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationService: NotificationService,
+  ) {}
 
   async addFriend(
     userId: string,
@@ -73,8 +77,32 @@ export class FriendsService {
             rating: true,
           },
         },
+        users_user_friends_user_idTousers: {
+          select: {
+            id: true,
+            fullName: true,
+            nickname: true,
+            avatarUrl: true,
+            rating: true,
+          },
+        },
       },
     });
+
+    // Enviar notificación al usuario objetivo sobre la nueva solicitud
+    try {
+      await this.notificationService.notifyFriendRequest(
+        friendId,
+        friendship.users_user_friends_user_idTousers.nickname ||
+          friendship.users_user_friends_user_idTousers.fullName,
+        userId,
+      );
+    } catch (error) {
+      console.error(
+        'Error enviando notificación de solicitud de amistad:',
+        error,
+      );
+    }
 
     return {
       id: friendship.id,
@@ -139,6 +167,33 @@ export class FriendsService {
         },
       },
     });
+
+    // Si la solicitud fue aceptada, enviar notificación al remitente
+    if (status === FriendStatus.ACCEPTED) {
+      try {
+        // Obtener información del usuario que aceptó la solicitud
+        const accepterUser = await this.prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            fullName: true,
+            nickname: true,
+          },
+        });
+
+        if (accepterUser) {
+          await this.notificationService.notifyFriendAccept(
+            updatedRequest.user_id, // El usuario que envió la solicitud original
+            accepterUser.nickname || accepterUser.fullName,
+            userId, // El usuario que aceptó
+          );
+        }
+      } catch (error) {
+        console.error(
+          'Error enviando notificación de aceptación de amistad:',
+          error,
+        );
+      }
+    }
 
     return {
       id: updatedRequest.id,
