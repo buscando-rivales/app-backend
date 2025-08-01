@@ -2,6 +2,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { PrismaService } from '../services/prisma.service';
+import { MetricsService } from '../metrics/metrics.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { SearchUsersDto } from './dto/user-search.dto';
 
@@ -32,6 +33,11 @@ describe('UsersService', () => {
     },
   };
 
+  const mockMetricsService = {
+    logUserSignUp: jest.fn(() => Promise.resolve()),
+    logUserUpdatedProfile: jest.fn(() => Promise.resolve()),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -39,6 +45,10 @@ describe('UsersService', () => {
         {
           provide: PrismaService,
           useValue: mockPrismaService,
+        },
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
         },
       ],
     }).compile();

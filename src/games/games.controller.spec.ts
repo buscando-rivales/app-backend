@@ -73,7 +73,12 @@ describe('GamesController', () => {
 
   describe('findNearby', () => {
     it('debería devolver una lista de juegos cercanos', async () => {
-      const result = await gamesController.findNearby(40.7128, -74.006, 1000);
+      const result = await gamesController.findNearby(
+        40.7128,
+        -74.006,
+        1000,
+        'user-id',
+      );
       expect(result).toEqual([
         {
           field_name: 'Field A',

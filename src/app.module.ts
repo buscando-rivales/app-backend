@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { GamesModule } from './games/games.module';
 import { FriendsModule } from './friends/friends.module';
 import { NotificationModule } from './notifications/notification.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { NotificationModule } from './notifications/notification.module';
     GamesModule,
     FriendsModule,
     NotificationModule,
+    MetricsModule,
   ],
   providers: [PrismaService],
 })

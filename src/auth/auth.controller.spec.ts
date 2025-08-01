@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { ClerkService } from './clerk.service';
+import { MetricsService } from '../metrics/metrics.service';
 import { LoginDto } from './dto/login.dto';
 
 // Mock del servicio ClerkService
@@ -24,9 +25,15 @@ const mockClerkService: Partial<ClerkService> = {
   verifyAppToken: jest.fn(),
 };
 
+// Mock del servicio MetricsService
+const mockMetricsService: Partial<MetricsService> = {
+  logUserLogin: jest.fn(() => Promise.resolve()),
+};
+
 describe('AuthController', () => {
   let authController: AuthController;
   let clerkService: Partial<ClerkService>;
+  let metricsService: Partial<MetricsService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -36,13 +43,16 @@ describe('AuthController', () => {
           provide: ClerkService,
           useValue: mockClerkService,
         },
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
+        },
       ],
     }).compile();
 
     authController = module.get<AuthController>(AuthController);
-    clerkService = module.get<ClerkService>(
-      ClerkService,
-    ) as Partial<ClerkService>;
+    clerkService = module.get<ClerkService>(ClerkService);
+    metricsService = module.get<MetricsService>(MetricsService);
   });
 
   it('debería estar definido', () => {
@@ -69,12 +79,23 @@ describe('AuthController', () => {
       (clerkService.generateAppToken as jest.Mock).mockReturnValue(mockJwt);
 
       const loginDto: LoginDto = { token: 'mocked-clerk-token' };
-      const result = await authController.login(loginDto);
+      const mockReq = {
+        headers: { 'user-agent': 'test-browser' },
+        ip: '127.0.0.1',
+      };
+
+      const result = await authController.login(loginDto, mockReq);
 
       expect(clerkService.verifyAndUpsertUser).toHaveBeenCalledWith(
         'mocked-clerk-token',
       );
       expect(clerkService.generateAppToken).toHaveBeenCalledWith(mockUser);
+      expect(metricsService.logUserLogin).toHaveBeenCalledWith({
+        userId: mockUser.id,
+        userAgent: 'test-browser',
+        ipAddress: '127.0.0.1',
+        loginMethod: 'clerk',
+      });
       expect(result).toEqual({ token: mockJwt });
     });
   });

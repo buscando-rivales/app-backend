@@ -7,6 +7,7 @@ import {
 import { FriendsService } from './friends.service';
 import { PrismaService } from '../services/prisma.service';
 import { NotificationService } from '../notifications/notification.service';
+import { MetricsService } from '../metrics/metrics.service';
 import { FriendStatus } from './dto/friend.dto';
 
 describe('FriendsService', () => {
@@ -30,6 +31,11 @@ describe('FriendsService', () => {
     notifyFriendAccept: jest.fn(),
   };
 
+  const mockMetricsService = {
+    logUserSentFriendRequest: jest.fn(() => Promise.resolve()),
+    logUserAcceptedFriendRequest: jest.fn(() => Promise.resolve()),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -41,6 +47,10 @@ describe('FriendsService', () => {
         {
           provide: NotificationService,
           useValue: mockNotificationService,
+        },
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
         },
       ],
     }).compile();

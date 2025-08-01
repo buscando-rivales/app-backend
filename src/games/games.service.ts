@@ -8,12 +8,14 @@ import { PrismaService } from '../services/prisma.service';
 import { CreateGameDto, UpdateGameDto } from './dto/game.dto';
 import { GamePlayersResponseDto } from './dto/game-player.dto';
 import { NotificationService } from '../notifications/notification.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Injectable()
 export class GamesService {
   constructor(
     private prisma: PrismaService,
     private notificationService: NotificationService,
+    private metricsService: MetricsService,
   ) {}
 
   create(data: CreateGameDto & { organizerId: string }) {
@@ -36,7 +38,12 @@ export class GamesService {
     return this.prisma.game.delete({ where: { id } });
   }
 
-  async findNearby(latitude: number, longitude: number, radius: number) {
+  async findNearby(
+    latitude: number,
+    longitude: number,
+    radius: number,
+    userId?: string,
+  ) {
     const query = `
       SELECT 
         f.name AS field_name,
@@ -119,6 +126,23 @@ export class GamesService {
       }
       return acc;
     }, []);
+
+    // Loguear métrica de búsqueda de juegos cercanos si tenemos userId
+    if (userId) {
+      try {
+        await this.metricsService.logSearchNearbyGames({
+          userId,
+          searchCriteria: {
+            latitude,
+            longitude,
+            radius,
+          },
+          resultsCount: results.length,
+        });
+      } catch (error) {
+        console.error('Error logging search nearby games metric:', error);
+      }
+    }
 
     return groupedResults;
   }

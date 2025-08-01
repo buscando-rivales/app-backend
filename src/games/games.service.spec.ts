@@ -7,6 +7,7 @@ import {
 import { GamesService } from './games.service';
 import { PrismaService } from '../services/prisma.service';
 import { NotificationService } from '../notifications/notification.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 describe('GamesService', () => {
   let gamesService: GamesService;
@@ -31,6 +32,10 @@ describe('GamesService', () => {
     createNotification: jest.fn(),
   };
 
+  const mockMetricsService = {
+    logSearchNearbyGames: jest.fn(() => Promise.resolve()),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -42,6 +47,10 @@ describe('GamesService', () => {
         {
           provide: NotificationService,
           useValue: mockNotificationService,
+        },
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
         },
       ],
     }).compile();

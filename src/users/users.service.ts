@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
+import { MetricsService } from '../metrics/metrics.service';
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -9,7 +10,10 @@ import {
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private metricsService: MetricsService,
+  ) {}
 
   createOrUpdateUser(userData: {
     id: string;
@@ -31,10 +35,23 @@ export class UsersService {
     });
   }
 
-  createUser(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({
+  async createUser(createUserDto: CreateUserDto) {
+    const user = await this.prisma.user.create({
       data: createUserDto,
     });
+
+    // Loguear métrica de registro de usuario
+    try {
+      await this.metricsService.logUserSignUp({
+        userId: user.id,
+        email: user.email,
+        signUpMethod: 'manual', // Asumiendo registro manual, podrías agregar este campo al DTO
+      });
+    } catch (error) {
+      console.error('Error logging user signup metric:', error);
+    }
+
+    return user;
   }
 
   findUserById(id: string) {
@@ -49,11 +66,32 @@ export class UsersService {
     });
   }
 
-  updateUser(id: string, updateUserDto: UpdateUserDto) {
-    return this.prisma.user.update({
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    // Obtener valores actuales para la métrica
+    const currentUser = await this.prisma.user.findUnique({ where: { id } });
+
+    const updatedUser = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
+
+    // Loguear métrica de actualización de perfil
+    if (currentUser) {
+      try {
+        await this.metricsService.logUserUpdatedProfile({
+          userId: id,
+          fieldsUpdated: Object.keys(updateUserDto),
+          previousValues: Object.fromEntries(
+            Object.keys(updateUserDto).map((key) => [key, currentUser[key]]),
+          ),
+          newValues: updateUserDto,
+        });
+      } catch (error) {
+        console.error('Error logging user profile update metric:', error);
+      }
+    }
+
+    return updatedUser;
   }
 
   updateUserRating(id: string, rating: number) {

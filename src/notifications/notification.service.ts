@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
+import { MetricsService } from '../metrics/metrics.service';
 import {
   CreateNotificationDto,
   NotificationDto,
@@ -13,6 +14,7 @@ export class NotificationService {
   constructor(
     private prisma: PrismaService,
     private notificationGateway: NotificationGateway,
+    private metricsService: MetricsService,
   ) {}
 
   async createNotification(
@@ -44,6 +46,19 @@ export class NotificationService {
       createNotificationDto.userId,
       formattedNotification,
     );
+
+    // Loguear métrica de notificación enviada
+    try {
+      await this.metricsService.logNotificationSent({
+        userId: createNotificationDto.userId,
+        notificationType: createNotificationDto.type,
+        notificationTitle: createNotificationDto.title,
+        deliveryMethod: 'websocket',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Error logging notification sent metric:', error);
+    }
 
     return formattedNotification;
   }
