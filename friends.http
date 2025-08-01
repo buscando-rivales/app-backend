@@ -8,20 +8,20 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "friendId": "user_abc123"
+  "friendId": "user_30LK98iRP05YveRNM8FKODZ3BSS"
 }
 
 ### 2. Aceptar solicitud de amistad
-PATCH {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+PATCH {{baseURL}}/friends/f251acdc-52d7-4ab4-b8e9-899d74275bf4
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "status": "accepted"
+  "status": "rejected"
 }
 
 ### 3. Rechazar solicitud de amistad
-PATCH {{baseURL}}/friends/b7008831-a52f-4384-88ac-55b5ae026b87
+PATCH {{baseURL}}/friends/f251acdc-52d7-4ab4-b8e9-899d74275bf4
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
 import { NotificationService } from '../notifications/notification.service';
+import { MetricsService } from '../metrics/metrics.service';
 import {
   AddFriendDto,
   UpdateFriendRequestDto,
@@ -20,6 +21,7 @@ export class FriendsService {
   constructor(
     private prisma: PrismaService,
     private notificationService: NotificationService,
+    private metricsService: MetricsService,
   ) {}
 
   async addFriend(
@@ -104,6 +106,20 @@ export class FriendsService {
       );
     }
 
+    // Loguear métrica de solicitud de amistad enviada
+    try {
+      await this.metricsService.logUserSentFriendRequest({
+        senderId: userId,
+        receiverId: friendId,
+        senderName:
+          friendship.users_user_friends_user_idTousers.nickname ||
+          friendship.users_user_friends_user_idTousers.fullName,
+        receiverName: targetUser.fullName,
+      });
+    } catch (error) {
+      console.error('Error logging friend request metric:', error);
+    }
+
     return {
       id: friendship.id,
       user_id: friendship.user_id,
@@ -186,10 +202,65 @@ export class FriendsService {
             accepterUser.nickname || accepterUser.fullName,
             userId, // El usuario que aceptó
           );
+
+          // Loguear métrica de solicitud de amistad aceptada
+          try {
+            await this.metricsService.logUserAcceptedFriendRequest({
+              accepterId: userId,
+              requesterId: updatedRequest.user_id,
+              accepterName: accepterUser.nickname || accepterUser.fullName,
+              requesterName:
+                updatedRequest.users_user_friends_user_idTousers.nickname ||
+                updatedRequest.users_user_friends_user_idTousers.fullName,
+            });
+          } catch (error) {
+            console.error(
+              'Error logging friend request accepted metric:',
+              error,
+            );
+          }
         }
       } catch (error) {
         console.error(
           'Error enviando notificación de aceptación de amistad:',
+          error,
+        );
+      }
+    }
+
+    // Si la solicitud fue rechazada, loguear la métrica
+    if (status === FriendStatus.REJECTED) {
+      try {
+        // Obtener información del usuario que rechazó la solicitud
+        const rejecterUser = await this.prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            fullName: true,
+            nickname: true,
+          },
+        });
+
+        if (rejecterUser) {
+          // Loguear métrica de solicitud de amistad rechazada
+          try {
+            await this.metricsService.logUserRejectedFriendRequest({
+              rejecterId: userId,
+              requesterId: updatedRequest.user_id,
+              rejecterName: rejecterUser.nickname || rejecterUser.fullName,
+              requesterName:
+                updatedRequest.users_user_friends_user_idTousers.nickname ||
+                updatedRequest.users_user_friends_user_idTousers.fullName,
+            });
+          } catch (error) {
+            console.error(
+              'Error logging friend request rejected metric:',
+              error,
+            );
+          }
+        }
+      } catch (error) {
+        console.error(
+          'Error procesando rechazo de solicitud de amistad:',
           error,
         );
       }

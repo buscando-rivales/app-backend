@@ -26,16 +26,16 @@ GET http://localhost:4000/games/c803a552-cd47-4f1a-90a1-0d5a026b6c38
 Authorization: Bearer {{authToken}}
 
 ### Actualizar un game
-PATCH http://localhost:4000/games/c803a552-cd47-4f1a-90a1-0d5a026b6c38
+PATCH http://localhost:4000/games/43c27a2b-5872-4dac-a03c-9491169ebcab
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "status": "full"
+  "status": "open"
 }
 
 ### Eliminar un game
-DELETE http://localhost:4000/games/c803a552-cd47-4f1a-90a1-0d5a026b6c38
+DELETE http://localhost:4000/games/66fa4e2d-a4bd-450d-85c1-7426a3a1f4a8
 Authorization: Bearer {{authToken}}
 
 ### Obtener juegos cercanos

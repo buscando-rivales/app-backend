@@ -10,6 +10,7 @@ import {
   Req,
   Query,
 } from '@nestjs/common';
+import { CurrentUser } from '../decorators/user.decorator';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -59,8 +60,9 @@ export class GamesController {
     @Query('latitude') latitude: number,
     @Query('longitude') longitude: number,
     @Query('radius') radius: number,
+    @CurrentUser() userId: string,
   ) {
-    return this.gamesService.findNearby(latitude, longitude, radius);
+    return this.gamesService.findNearby(latitude, longitude, radius, userId);
   }
 
   @Get(':id')

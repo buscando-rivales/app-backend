@@ -7,6 +7,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { ClerkService } from './clerk.service';
+import { MetricsService } from '../metrics/metrics.service';
 import { GenerateTokenDto } from './dto/generate-token.dto';
 import { LoginDto } from './dto/login.dto';
 import { ClerkAuthGuard } from './auth.guard';
@@ -14,7 +15,10 @@ import { ClerkAuthGuard } from './auth.guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly clerkService: ClerkService) {}
+  constructor(
+    private readonly clerkService: ClerkService,
+    private readonly metricsService: MetricsService,
+  ) {}
 
   @Post('token')
   @ApiOperation({ summary: 'Generate Clerk session token' })
@@ -39,10 +43,23 @@ export class AuthController {
     description: 'App JWT generated',
     schema: { example: { token: '...' } },
   })
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto, @Req() req) {
     // 1. Validar token Clerk y obtener usuario
     const user = await this.clerkService.verifyAndUpsertUser(loginDto.token);
-    // 2. Generar y devolver token propio
+
+    // 2. Loguear métrica de login
+    try {
+      await this.metricsService.logUserLogin({
+        userId: user.id,
+        userAgent: req.headers['user-agent'],
+        ipAddress: req.ip,
+        loginMethod: 'clerk',
+      });
+    } catch (error) {
+      console.error('Error logging user login metric:', error);
+    }
+
+    // 3. Generar y devolver token propio
     const appToken = this.clerkService.generateAppToken(user);
     return { token: appToken };
   }

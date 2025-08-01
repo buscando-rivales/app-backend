@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotificationService } from './notification.service';
 import { NotificationGateway } from './notification.gateway';
 import { PrismaService } from '../services/prisma.service';
+import { MetricsService } from '../metrics/metrics.service';
 import {
   CreateNotificationDto,
   NotificationType,
@@ -26,6 +27,10 @@ describe('NotificationService', () => {
     notifyUnreadCountChange: jest.fn(),
   };
 
+  const mockMetricsService = {
+    logNotificationSent: jest.fn(() => Promise.resolve()),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -37,6 +42,10 @@ describe('NotificationService', () => {
         {
           provide: NotificationGateway,
           useValue: mockNotificationGateway,
+        },
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
         },
       ],
     }).compile();
