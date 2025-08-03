@@ -6,12 +6,11 @@ import {
   IsNumber,
   Min,
   Max,
-  Validate,
   IsInt,
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { UniqueNicknameValidator } from '../validators/unique-nickname.validator';
+import { IsUniqueNickname } from '../validators/unique-nickname.validator';
 import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
@@ -73,7 +72,9 @@ export class UpdateUserDto {
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
-  @Validate(UniqueNicknameValidator)
+  @IsUniqueNickname({
+    message: 'El nickname ya está en uso. Por favor, elige otro.',
+  })
   nickname?: string;
 }
 
