@@ -84,6 +84,7 @@ model GamePlayer {
 
   @@unique([gameId, playerId])
   @@index([gameId], map: "idx_game_players_game_id")
+  @@index([gameId, status], map: "idx_game_players_game_id_status")
   @@map("game_players")
 }
 
