@@ -1,8 +1,12 @@
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMwUUhmaE94aDhGSHZrbTJIenhlWXVBVEYxVCIsImVtYWlsIjoibHVjaWFuby56YXBhdGEzMTRAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJsdWNpYW5vIHphcGF0YSIsInJvbGVzIjpbImp1Z2Fkb3IiXSwiaWF0IjoxNzUzODI2ODg0LCJleHAiOjE3NTQ0MzE2ODR9.Bmn0Ihf9ym1n2a4k1NI_J6uiau9_z__88CsDTQzXc7s
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMwUVFKaTVZRnE3aktSUkgwTWx4OXd3Q0NORiIsImVtYWlsIjoibWF0aWFzZ29uemFsZXouNjUyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiTWF0aWFzIEdvbnphbGV6Iiwicm9sZXMiOlsianVnYWRvciIsImFkbWluIl0sImlhdCI6MTc1NDYwOTY0OSwiZXhwIjoxNzU1MjE0NDQ5fQ.EofyTBSxkHlH8ngnG05_v_BVkFCPCOIHbhnK5v_dUU0
 @baseUrl = http://localhost:4000
 
 ### Obtener perfil del usuario actual
 GET http://localhost:4000/users/profile
+Authorization: Bearer {{authToken}}
+
+### Obtener perfil del usuario actual con deportes incluidos
+GET http://localhost:4000/users/profile?include=sports
 Authorization: Bearer {{authToken}}
 
 ### Actualizar perfil del usuario actual
@@ -12,7 +16,13 @@ Content-Type: application/json
 
 {
 
-  "nickname": "lucho316"
+  "nickname": "Mstute",
+  "gender": "masculino",
+  "birthDate": "1995-03-05",
+  "bio": "string",
+  "instagramUsername": "usuario123",
+  "facebookUsername": "usuario.facebook",
+  "isPublicProfile": true
 
 }
 
@@ -35,4 +45,88 @@ Authorization: Bearer {{authToken}}
 
 ### Search users by nickname - No results
 GET {{baseUrl}}/users/search?query=nonexistentuser
+Authorization: Bearer {{authToken}}
+
+###
+### DEPORTES Y POSICIONES DEL USUARIO
+###
+
+### Obtener deportes y posiciones del usuario
+GET {{baseUrl}}/users/profile/sports
+Authorization: Bearer {{authToken}}
+
+### Agregar posición deportiva al usuario
+# Nota: Reemplazar position_id con un ID real de la base de datos
+# Puedes obtener IDs válidos desde GET /sports/with-positions
+POST {{baseUrl}}/users/profile/sports
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "position_id": "4807ed9e-663e-4c5a-a9ec-754e95dedb5e"
+}
+
+### Actualizar posición deportiva del usuario
+# Nota: Reemplazar ambos IDs con valores reales
+PUT {{baseUrl}}/users/profile/sports/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "position_id": "550e8400-e29b-41d4-a716-446655440001"
+}
+
+### Eliminar posición deportiva del usuario
+# Nota: Reemplazar position_id con un ID real
+DELETE {{baseUrl}}/users/profile/sports/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer {{authToken}}
+
+###
+### LISTADOS DE DEPORTES Y POSICIONES
+###
+
+### Obtener todos los deportes activos
+GET {{baseUrl}}/sports
+Authorization: Bearer {{authToken}}
+
+### Obtener deportes con sus posiciones
+GET {{baseUrl}}/sports/with-positions
+Authorization: Bearer {{authToken}}
+
+### Obtener posiciones de un deporte específico
+# Nota: Reemplazar sport_id con un ID real de la base de datos
+# Puedes obtener IDs válidos desde GET /sports
+GET {{baseUrl}}/sports/550e8400-e29b-41d4-a716-446655440000/positions
+Authorization: Bearer {{authToken}}
+
+### Obtener posiciones de un deporte filtradas por tipo (Fútbol 5)
+GET {{baseUrl}}/sports/550e8400-e29b-41d4-a716-446655440000/positions?type=5
+Authorization: Bearer {{authToken}}
+
+### Obtener posiciones de un deporte filtradas por tipo (Fútbol 11)
+GET {{baseUrl}}/sports/550e8400-e29b-41d4-a716-446655440000/positions?type=11
+Authorization: Bearer {{authToken}}
+
+###
+### EJEMPLOS PRÁCTICOS - FLUJO COMPLETO
+###
+
+### 1. Primero: Obtener lista de deportes disponibles
+GET {{baseUrl}}/sports
+Authorization: Bearer {{authToken}}
+
+### 2. Luego: Ver deportes con sus posiciones para elegir
+GET {{baseUrl}}/sports/with-positions
+Authorization: Bearer {{authToken}}
+
+### 3. Agregar una posición favorita (usar IDs reales del paso anterior)
+# POST {{baseUrl}}/users/profile/sports
+# Authorization: Bearer {{authToken}}
+# Content-Type: application/json
+# {
+#   "position_id": "ID_REAL_DE_POSICION"
+# }
+
+### 4. Ver el perfil con deportes incluidos
+GET {{baseUrl}}/users/profile?include=sports
 Authorization: Bearer {{authToken}}

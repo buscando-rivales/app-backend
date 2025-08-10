@@ -3,8 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { PrismaService } from '../services/prisma.service';
 import { MetricsService } from '../metrics/metrics.service';
+import { DateService } from '../utils/date.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { SearchUsersDto } from './dto/user-search.dto';
+import { CreateUserSportPositionDto } from './dto/user-sport-position.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -31,11 +33,29 @@ describe('UsersService', () => {
       upsert: jest.fn(),
       findMany: jest.fn(),
     },
+    user_positions: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      create: jest.fn(),
+      delete: jest.fn(),
+      deleteMany: jest.fn(),
+      updateMany: jest.fn(),
+    },
+    positions: {
+      findUnique: jest.fn(),
+    },
   };
 
   const mockMetricsService = {
     logUserSignUp: jest.fn(() => Promise.resolve()),
     logUserUpdatedProfile: jest.fn(() => Promise.resolve()),
+  };
+
+  const mockDateService = {
+    formatDate: jest.fn(),
+    parseDate: jest.fn(),
+    calculateAge: jest.fn(() => 25),
   };
 
   beforeEach(async () => {
@@ -49,6 +69,10 @@ describe('UsersService', () => {
         {
           provide: MetricsService,
           useValue: mockMetricsService,
+        },
+        {
+          provide: DateService,
+          useValue: mockDateService,
         },
       ],
     }).compile();
@@ -126,7 +150,10 @@ describe('UsersService', () => {
       expect(prismaService.user.findUnique).toHaveBeenCalledWith({
         where: { id: userId },
       });
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual({
+        ...mockUser,
+        age: 25,
+      });
     });
 
     it('should return null if user not found', async () => {
@@ -175,6 +202,11 @@ describe('UsersService', () => {
         fullName: 'Updated User',
         phone: '987654321',
         nickname: 'updateduser',
+        toPrismaData: () => ({
+          fullName: 'Updated User',
+          phone: '987654321',
+          nickname: 'updateduser',
+        }),
       };
 
       const updatedUser = { ...mockUser, ...updateUserDto };
@@ -184,9 +216,12 @@ describe('UsersService', () => {
 
       expect(prismaService.user.update).toHaveBeenCalledWith({
         where: { id: userId },
-        data: updateUserDto,
+        data: updateUserDto.toPrismaData(),
       });
-      expect(result).toEqual(updatedUser);
+      expect(result).toEqual({
+        ...updatedUser,
+        age: 25,
+      });
     });
   });
 
@@ -345,6 +380,274 @@ describe('UsersService', () => {
         total: 0,
         query: 'nonexistent',
       });
+    });
+  });
+
+  describe('getUserSportsPositions', () => {
+    it('should get user sports and positions', async () => {
+      const userId = 'user-1';
+      const mockUserPositions = [
+        {
+          user_id: userId,
+          position_id: 'position-1',
+          positions: {
+            id: 'position-1',
+            name: 'Delantero',
+            type: '5',
+            sports: {
+              id: 'sport-1',
+              name: 'Fútbol',
+              code: 'futbol',
+            },
+          },
+        },
+      ];
+
+      mockPrismaService.user_positions.findMany.mockResolvedValue(
+        mockUserPositions,
+      );
+
+      const result = await service.getUserSportsPositions(userId);
+
+      expect(prismaService.user_positions.findMany).toHaveBeenCalledWith({
+        where: { user_id: userId },
+        include: {
+          positions: {
+            include: {
+              sports: true,
+            },
+          },
+        },
+      });
+
+      expect(result).toEqual([
+        {
+          user_id: userId,
+          position_id: 'position-1',
+          position: {
+            id: 'position-1',
+            name: 'Delantero',
+            type: '5',
+            sport: {
+              id: 'sport-1',
+              name: 'Fútbol',
+              code: 'futbol',
+            },
+          },
+        },
+      ]);
+    });
+  });
+
+  describe('addUserSportPosition', () => {
+    it('should add a new sport position to user', async () => {
+      const userId = 'user-1';
+      const createDto: CreateUserSportPositionDto = {
+        position_id: 'position-1',
+      };
+
+      const mockPosition = {
+        id: 'position-1',
+        name: 'Delantero',
+        type: '5',
+        sport_id: 'sport-1',
+        sports: {
+          id: 'sport-1',
+          name: 'Fútbol',
+          code: 'futbol',
+        },
+      };
+
+      const mockCreatedUserPosition = {
+        user_id: userId,
+        position_id: 'position-1',
+        positions: {
+          id: 'position-1',
+          name: 'Delantero',
+          type: '5',
+          sports: {
+            id: 'sport-1',
+            name: 'Fútbol',
+            code: 'futbol',
+          },
+        },
+      };
+
+      mockPrismaService.user_positions.findUnique.mockResolvedValue(null);
+      mockPrismaService.positions.findUnique.mockResolvedValue(mockPosition);
+      mockPrismaService.user_positions.findFirst.mockResolvedValue(null);
+      mockPrismaService.user_positions.create.mockResolvedValue(
+        mockCreatedUserPosition,
+      );
+
+      const result = await service.addUserSportPosition(userId, createDto);
+
+      expect(prismaService.user_positions.findUnique).toHaveBeenCalledWith({
+        where: {
+          user_id_position_id: {
+            user_id: userId,
+            position_id: createDto.position_id,
+          },
+        },
+      });
+
+      expect(prismaService.user_positions.create).toHaveBeenCalledWith({
+        data: {
+          user_id: userId,
+          position_id: createDto.position_id,
+        },
+        include: {
+          positions: {
+            include: {
+              sports: true,
+            },
+          },
+        },
+      });
+
+      expect(result).toEqual({
+        user_id: userId,
+        position_id: 'position-1',
+        position: {
+          id: 'position-1',
+          name: 'Delantero',
+          type: '5',
+          sport: {
+            id: 'sport-1',
+            name: 'Fútbol',
+            code: 'futbol',
+          },
+        },
+      });
+    });
+
+    it('should throw error if position already exists for user', async () => {
+      const userId = 'user-1';
+      const createDto: CreateUserSportPositionDto = {
+        position_id: 'position-1',
+      };
+
+      mockPrismaService.user_positions.findUnique.mockResolvedValue({
+        user_id: userId,
+        position_id: 'position-1',
+      });
+
+      await expect(
+        service.addUserSportPosition(userId, createDto),
+      ).rejects.toThrow('User already has this position assigned');
+    });
+
+    it('should throw error if position_id is missing', async () => {
+      const userId = 'user-1';
+      const createDto = {} as CreateUserSportPositionDto;
+
+      await expect(
+        service.addUserSportPosition(userId, createDto),
+      ).rejects.toThrow('Position ID is required');
+    });
+
+    it('should replace existing position for same sport', async () => {
+      const userId = 'user-1';
+      const createDto: CreateUserSportPositionDto = {
+        position_id: 'position-2',
+      };
+
+      const mockPosition = {
+        id: 'position-2',
+        name: 'Mediocampista',
+        type: '5',
+        sport_id: 'sport-1',
+        sports: {
+          id: 'sport-1',
+          name: 'Fútbol',
+          code: 'futbol',
+        },
+      };
+
+      const mockExistingForSport = {
+        user_id: userId,
+        position_id: 'position-1',
+      };
+
+      const mockCreatedUserPosition = {
+        user_id: userId,
+        position_id: 'position-2',
+        positions: {
+          id: 'position-2',
+          name: 'Mediocampista',
+          type: '5',
+          sports: {
+            id: 'sport-1',
+            name: 'Fútbol',
+            code: 'futbol',
+          },
+        },
+      };
+
+      mockPrismaService.user_positions.findUnique.mockResolvedValue(null);
+      mockPrismaService.positions.findUnique.mockResolvedValue(mockPosition);
+      mockPrismaService.user_positions.findFirst.mockResolvedValue(
+        mockExistingForSport,
+      );
+      mockPrismaService.user_positions.delete.mockResolvedValue(
+        mockExistingForSport,
+      );
+      mockPrismaService.user_positions.create.mockResolvedValue(
+        mockCreatedUserPosition,
+      );
+
+      const result = await service.addUserSportPosition(userId, createDto);
+
+      expect(prismaService.user_positions.delete).toHaveBeenCalledWith({
+        where: {
+          user_id_position_id: {
+            user_id: userId,
+            position_id: 'position-1',
+          },
+        },
+      });
+
+      expect(result.position.name).toBe('Mediocampista');
+    });
+  });
+
+  describe('removeUserSportPosition', () => {
+    it('should remove sport position from user', async () => {
+      const userId = 'user-1';
+      const positionId = 'position-1';
+
+      const mockDeletedPosition = {
+        user_id: userId,
+        position_id: positionId,
+      };
+
+      mockPrismaService.user_positions.delete.mockResolvedValue(
+        mockDeletedPosition,
+      );
+
+      await service.removeUserSportPosition(userId, positionId);
+
+      expect(prismaService.user_positions.delete).toHaveBeenCalledWith({
+        where: {
+          user_id_position_id: {
+            user_id: userId,
+            position_id: positionId,
+          },
+        },
+      });
+    });
+
+    it('should throw error if position not found', async () => {
+      const userId = 'user-1';
+      const positionId = 'position-1';
+
+      mockPrismaService.user_positions.delete.mockRejectedValue(
+        new Error('Record not found'),
+      );
+
+      await expect(
+        service.removeUserSportPosition(userId, positionId),
+      ).rejects.toThrow();
     });
   });
 });

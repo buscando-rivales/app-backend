@@ -216,6 +216,26 @@ describe('MetricsService', () => {
     });
   });
 
+  describe('logUserRejectedFriendRequest', () => {
+    it('should log friend request rejected metric', async () => {
+      const rejectData = {
+        rejecterId: 'user456',
+        requesterId: 'user123',
+        rejecterName: 'Rejecter User',
+        requesterName: 'Requester User',
+      };
+
+      const logMetricSpy = jest.spyOn(service, 'logMetric').mockResolvedValue();
+
+      await service.logUserRejectedFriendRequest(rejectData);
+
+      expect(logMetricSpy).toHaveBeenCalledWith(
+        MetricEventType.USER_REJECTED_FRIEND_REQUEST,
+        rejectData,
+      );
+    });
+  });
+
   describe('logNotificationSent', () => {
     it('should log notification sent metric', async () => {
       const notificationData = {

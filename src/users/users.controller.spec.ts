@@ -4,6 +4,10 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
 import { SearchUsersDto } from './dto/user-search.dto';
+import {
+  CreateUserSportPositionDto,
+  UpdateUserSportPositionDto,
+} from './dto/user-sport-position.dto';
 import { ClerkAuthGuard } from '../auth/auth.guard';
 
 describe('UsersController', () => {
@@ -27,6 +31,10 @@ describe('UsersController', () => {
     findUserById: jest.fn(),
     updateUser: jest.fn(),
     searchUsersByNickname: jest.fn(),
+    getUserSportsPositions: jest.fn(),
+    addUserSportPosition: jest.fn(),
+    updateUserSportPosition: jest.fn(),
+    removeUserSportPosition: jest.fn(),
   };
 
   const mockRequest = {
@@ -90,6 +98,11 @@ describe('UsersController', () => {
         fullName: 'Updated User',
         phone: '987654321',
         nickname: 'updateduser',
+        toPrismaData: () => ({
+          fullName: 'Updated User',
+          phone: '987654321',
+          nickname: 'updateduser',
+        }),
       };
 
       const updatedUser = { ...mockUser, ...updateUserDto };
@@ -107,6 +120,9 @@ describe('UsersController', () => {
     it('should handle partial updates', async () => {
       const updateUserDto: UpdateUserDto = {
         nickname: 'newnickname',
+        toPrismaData: () => ({
+          nickname: 'newnickname',
+        }),
       };
 
       const updatedUser = { ...mockUser, nickname: 'newnickname' };
@@ -180,6 +196,126 @@ describe('UsersController', () => {
       const result = await controller.searchUsers(searchDto);
 
       expect(result).toEqual(mockSearchResponse);
+    });
+  });
+
+  describe('getUserSportsPositions', () => {
+    it('should return user sports and positions', async () => {
+      const mockSportsPositions = [
+        {
+          user_id: 'user-1',
+          position_id: 'pos-1',
+          position: {
+            id: 'pos-1',
+            name: 'Delantero',
+            type: 'attacking',
+            sport: {
+              id: 'sport-1',
+              name: 'Fútbol',
+              code: 'futbol',
+            },
+          },
+        },
+      ];
+
+      mockUsersService.getUserSportsPositions.mockResolvedValue(
+        mockSportsPositions,
+      );
+
+      const result = await controller.getUserSportsPositions('user-1');
+
+      expect(usersService.getUserSportsPositions).toHaveBeenCalledWith(
+        'user-1',
+      );
+      expect(result).toEqual(mockSportsPositions);
+    });
+  });
+
+  describe('addUserSportPosition', () => {
+    it('should add sport position to user', async () => {
+      const createDto: CreateUserSportPositionDto = {
+        position_id: 'pos-1',
+      };
+
+      const mockResponse = {
+        user_id: 'user-1',
+        position_id: 'pos-1',
+        position: {
+          id: 'pos-1',
+          name: 'Delantero',
+          type: 'attacking',
+          sport: {
+            id: 'sport-1',
+            name: 'Fútbol',
+            code: 'futbol',
+          },
+        },
+      };
+
+      mockUsersService.addUserSportPosition.mockResolvedValue(mockResponse);
+
+      const result = await controller.addUserSportPosition('user-1', createDto);
+
+      expect(usersService.addUserSportPosition).toHaveBeenCalledWith(
+        'user-1',
+        createDto,
+      );
+      expect(result).toEqual(mockResponse);
+    });
+  });
+
+  describe('updateUserSportPosition', () => {
+    it('should update user sport position', async () => {
+      const updateDto: UpdateUserSportPositionDto = {
+        position_id: 'pos-2',
+      };
+
+      const mockResponse = {
+        user_id: 'user-1',
+        position_id: 'pos-2',
+        position: {
+          id: 'pos-2',
+          name: 'Mediocampista',
+          type: 'midfield',
+          sport: {
+            id: 'sport-1',
+            name: 'Fútbol',
+            code: 'futbol',
+          },
+        },
+      };
+
+      mockUsersService.updateUserSportPosition.mockResolvedValue(mockResponse);
+
+      const result = await controller.updateUserSportPosition(
+        'user-1',
+        'sport-1',
+        updateDto,
+      );
+
+      expect(usersService.updateUserSportPosition).toHaveBeenCalledWith(
+        'user-1',
+        'sport-1',
+        updateDto,
+      );
+      expect(result).toEqual(mockResponse);
+    });
+  });
+
+  describe('removeUserSportPosition', () => {
+    it('should remove user sport position', async () => {
+      mockUsersService.removeUserSportPosition.mockResolvedValue(undefined);
+
+      const result = await controller.removeUserSportPosition(
+        'user-1',
+        'sport-1',
+      );
+
+      expect(usersService.removeUserSportPosition).toHaveBeenCalledWith(
+        'user-1',
+        'sport-1',
+      );
+      expect(result).toBeUndefined();
     });
   });
 });
