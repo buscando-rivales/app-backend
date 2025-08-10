@@ -34,6 +34,7 @@ describe('FriendsService', () => {
   const mockMetricsService = {
     logUserSentFriendRequest: jest.fn(() => Promise.resolve()),
     logUserAcceptedFriendRequest: jest.fn(() => Promise.resolve()),
+    logUserRejectedFriendRequest: jest.fn(() => Promise.resolve()),
   };
 
   beforeEach(async () => {
@@ -205,6 +206,56 @@ describe('FriendsService', () => {
       await expect(
         service.updateFriendRequest(userId, requestId, updateDto),
       ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should log rejected friend request metric when status is REJECTED', async () => {
+      const rejectDto = { status: FriendStatus.REJECTED };
+      const mockRejecterUser = {
+        fullName: 'Current User',
+        nickname: 'currentuser',
+      };
+
+      const mockRequest = {
+        id: requestId,
+        user_id: 'user2',
+        friend_id: userId,
+        status: FriendStatus.PENDING,
+        users_user_friends_user_idTousers: {
+          id: 'user2',
+          fullName: 'Sender User',
+          nickname: 'senderuser',
+          avatarUrl: null,
+          rating: null,
+        },
+      };
+
+      const mockUpdatedRequest = {
+        ...mockRequest,
+        status: FriendStatus.REJECTED,
+        updated_at: new Date(),
+      };
+
+      mockPrismaService.user_friends.findFirst.mockResolvedValue(mockRequest);
+      mockPrismaService.user.findUnique.mockResolvedValue(mockRejecterUser);
+      mockPrismaService.user_friends.update.mockResolvedValue(
+        mockUpdatedRequest,
+      );
+
+      const result = await service.updateFriendRequest(
+        userId,
+        requestId,
+        rejectDto,
+      );
+
+      expect(result.status).toBe(FriendStatus.REJECTED);
+      expect(
+        mockMetricsService.logUserRejectedFriendRequest,
+      ).toHaveBeenCalledWith({
+        rejecterId: userId,
+        requesterId: 'user2',
+        rejecterName: 'currentuser',
+        requesterName: 'senderuser',
+      });
     });
   });
 

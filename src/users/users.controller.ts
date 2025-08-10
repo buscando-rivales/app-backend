@@ -2,10 +2,14 @@ import {
   Controller,
   Get,
   Put,
+  Post,
+  Delete,
   Body,
   UseGuards,
   Req,
   Query,
+  Param,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -19,6 +23,11 @@ import { UpdateUserDto } from './dto/user.dto';
 import { CurrentUser } from '../decorators/user.decorator';
 import { ClerkAuthGuard } from '../auth/auth.guard';
 import { SearchUsersDto, UserSearchResponseDto } from './dto/user-search.dto';
+import {
+  UserSportPositionDto,
+  CreateUserSportPositionDto,
+  UpdateUserSportPositionDto,
+} from './dto/user-sport-position.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -54,9 +63,24 @@ export class UsersController {
 
   @Get('profile')
   @ApiOperation({ summary: 'Get current user profile' })
-  getProfile(@Req() req) {
+  @ApiQuery({
+    name: 'include',
+    required: false,
+    description: 'Include additional data (sports)',
+  })
+  async getProfile(@Req() req, @Query('include') include?: string) {
     const userId = req.user.sub;
-    return this.usersService.findUserById(userId);
+    const profile = await this.usersService.findUserById(userId);
+
+    if (include === 'sports') {
+      const sports = await this.usersService.getUserSportsPositions(userId);
+      return {
+        ...profile,
+        sports,
+      };
+    }
+
+    return profile;
   }
 
   @Put('profile')
@@ -66,5 +90,42 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.updateUser(userId, updateUserDto);
+  }
+
+  // Endpoints para deportes y posiciones
+  @Get('profile/sports')
+  @ApiOperation({ summary: 'Get user sports and positions' })
+  getUserSportsPositions(
+    @CurrentUser() userId: string,
+  ): Promise<UserSportPositionDto[]> {
+    return this.usersService.getUserSportsPositions(userId);
+  }
+
+  @Post('profile/sports')
+  @ApiOperation({ summary: 'Add sport position to user' })
+  addUserSportPosition(
+    @CurrentUser() userId: string,
+    @Body() data: CreateUserSportPositionDto,
+  ): Promise<UserSportPositionDto> {
+    return this.usersService.addUserSportPosition(userId, data);
+  }
+
+  @Put('profile/sports/:positionId')
+  @ApiOperation({ summary: 'Update user sport position' })
+  updateUserSportPosition(
+    @CurrentUser() userId: string,
+    @Param('positionId', ParseUUIDPipe) positionId: string,
+    @Body() data: UpdateUserSportPositionDto,
+  ): Promise<UserSportPositionDto> {
+    return this.usersService.updateUserSportPosition(userId, positionId, data);
+  }
+
+  @Delete('profile/sports/:positionId')
+  @ApiOperation({ summary: 'Remove sport position from user' })
+  removeUserSportPosition(
+    @CurrentUser() userId: string,
+    @Param('positionId', ParseUUIDPipe) positionId: string,
+  ): Promise<void> {
+    return this.usersService.removeUserSportPosition(userId, positionId);
   }
 }
