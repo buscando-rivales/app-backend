@@ -10,6 +10,7 @@ import { FriendsModule } from './friends/friends.module';
 import { NotificationModule } from './notifications/notification.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { SportsModule } from './sports/sports.module';
+import { DevicesModule } from './devices/devices.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SportsModule } from './sports/sports.module';
     NotificationModule,
     MetricsModule,
     SportsModule,
+    DevicesModule,
   ],
   providers: [PrismaService],
 })

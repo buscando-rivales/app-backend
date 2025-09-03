@@ -1,0 +1,10 @@
+### Test Auth Token Generation
+POST http://localhost:4000/auth/token
+Content-Type: application/json
+
+{
+  "sub": "user_30QQJi5YFq7jKRRH0Mlx9wwCCNF",
+  "email": "matiasngonzalez.652@gmail.com",
+  "fullName": "Matias Gonzalez",
+  "roles": ["jugador", "admin"]
+}
