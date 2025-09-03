@@ -1,0 +1,55 @@
+### Variables
+@baseURL = http://localhost:4000
+@authToken ={{$dotenv TEST_AUTH_TOKEN}}
+
+### Registrar dispositivo FCM - Caso exitoso
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "fcmToken": "dGhpcyBpcyBhIGZha2UgZmNtIHRva2VuIGZvciBleGFtcGxl"
+}
+
+### Registrar dispositivo FCM - Token largo (caso real)
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "fcmToken": "fGcM_token_example_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz"
+}
+
+### Registrar dispositivo FCM - Token vacío (debería fallar)
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "fcmToken": ""
+}
+
+### Registrar dispositivo FCM - Sin token (debería fallar)
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+}
+
+### Registrar dispositivo FCM - Sin autenticación (debería fallar con 401)
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+
+{
+  "fcmToken": "dGhpcyBpcyBhIGZha2UgZmNtIHRva2VuIGZvciBleGFtcGxl"
+}
+
+### Registrar dispositivo FCM - Token inválido de autenticación (debería fallar con 401)
+POST {{baseURL}}/devices/register
+Content-Type: application/json
+Authorization: Bearer invalid_token_here
+
+{
+  "fcmToken": "dGhpcyBpcyBhIGZha2UgZmNtIHRva2VuIGZvciBleGFtcGxl"
+}

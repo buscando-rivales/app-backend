@@ -8,14 +8,51 @@ import {
   NotificationType,
 } from './dto/notification.dto';
 import { NotificationGateway } from './notification.gateway';
+import * as admin from 'firebase-admin';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class NotificationService {
+  private firebaseApp: admin.app.App;
+
   constructor(
     private prisma: PrismaService,
     private notificationGateway: NotificationGateway,
     private metricsService: MetricsService,
-  ) {}
+  ) {
+    this.initializeFirebase();
+  }
+
+  private initializeFirebase() {
+    try {
+      // Verificar si ya existe una app de Firebase
+      try {
+        this.firebaseApp = admin.app(); // Usar la app existente
+        console.log('Firebase Admin SDK usando app existente');
+        return;
+      } catch (error) {
+        // Si no existe, crear una nueva
+      }
+
+      const serviceAccountPath = path.join(
+        __dirname,
+        '..',
+        'serviceAccountkey.json',
+      );
+      const serviceAccount = JSON.parse(
+        fs.readFileSync(serviceAccountPath, 'utf8'),
+      );
+
+      this.firebaseApp = admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        projectId: serviceAccount.project_id,
+      });
+    } catch (error) {
+      console.error('Error inicializando Firebase Admin SDK:', error);
+      throw new Error('No se pudo inicializar Firebase Admin SDK');
+    }
+  }
 
   async createNotification(
     createNotificationDto: CreateNotificationDto,
@@ -295,5 +332,74 @@ export class NotificationService {
         accepterName,
       },
     });
+  }
+
+  /**
+   * Envía una notificación push usando Firebase Cloud Messaging
+   * @param token Token FCM del dispositivo del usuario
+   * @param title Título de la notificación
+   * @param body Cuerpo de la notificación
+   * @param data Datos adicionales opcionales
+   * @returns Promise<string> ID del mensaje enviado
+   */
+  async sendPushNotification(
+    token: string,
+    title: string,
+    body: string,
+    data?: Record<string, string>,
+  ): Promise<string> {
+    try {
+      if (!token || !title || !body) {
+        throw new Error('Token, título y cuerpo son requeridos');
+      }
+
+      const message = {
+        notification: {
+          title,
+          body,
+        },
+        data: data || {},
+        token,
+      };
+
+      const response = await admin.messaging().send(message);
+
+      console.log('Notificación push enviada exitosamente:', response);
+
+      // Loguear métrica de notificación push enviada
+      try {
+        await this.metricsService.logNotificationSent({
+          userId: 'unknown', // Se puede mejorar pasando el userId como parámetro
+          notificationType: 'PUSH',
+          notificationTitle: title,
+          deliveryMethod: 'firebase_fcm',
+          success: true,
+        });
+      } catch (metricError) {
+        console.error('Error logging push notification metric:', metricError);
+      }
+
+      return response;
+    } catch (error) {
+      console.error('Error enviando notificación push:', error);
+
+      // Loguear métrica de error
+      try {
+        await this.metricsService.logNotificationSent({
+          userId: 'unknown',
+          notificationType: 'PUSH',
+          notificationTitle: title,
+          deliveryMethod: 'firebase_fcm',
+          success: false,
+        });
+      } catch (metricError) {
+        console.error(
+          'Error logging failed push notification metric:',
+          metricError,
+        );
+      }
+
+      throw new Error(`Error enviando notificación push: ${error.message}`);
+    }
   }
 }

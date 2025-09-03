@@ -104,7 +104,7 @@ export interface NotificationSentMetric {
   userId: string;
   notificationType: string;
   notificationTitle: string;
-  deliveryMethod: 'websocket' | 'push' | 'email';
+  deliveryMethod: 'websocket' | 'push' | 'email' | 'firebase_fcm';
   success: boolean;
 }
 
