@@ -55,6 +55,7 @@ export class FriendsService {
         ],
       },
     });
+    console.log(existingFriendship, userId, friendId);
 
     if (existingFriendship) {
       throw new ConflictException(

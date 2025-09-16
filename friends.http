@@ -8,7 +8,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "friendId": "user_30LK98iRP05YveRNM8FKODZ3BSS"
+  "friendId": "user_30QHfhOxh8FHvkm2HzxeYuATF1T"
 }
 
 ### 2. Aceptar solicitud de amistad

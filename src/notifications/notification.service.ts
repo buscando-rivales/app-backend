@@ -75,10 +75,18 @@ export class NotificationService {
       data: createNotificationDto.data,
     };
 
-    // Enviar notificación en tiempo real via WebSocket
-    this.notificationGateway.sendNotificationToUser(
+    // Enviar notificación push a través de Firebase
+    const data = {
+      notificationId: notification.id,
+      notificationType: notification.type,
+      ...(createNotificationDto.data || {}),
+    };
+
+    await this.sendPushNotificationsToUser(
       createNotificationDto.userId,
-      formattedNotification,
+      createNotificationDto.title,
+      createNotificationDto.body,
+      data,
     );
 
     // Loguear métrica de notificación enviada
@@ -87,7 +95,7 @@ export class NotificationService {
         userId: createNotificationDto.userId,
         notificationType: createNotificationDto.type,
         notificationTitle: createNotificationDto.title,
-        deliveryMethod: 'websocket',
+        deliveryMethod: 'firebase_fcm',
         success: true,
       });
     } catch (error) {
@@ -161,8 +169,16 @@ export class NotificationService {
       data: { read: true },
     });
 
-    // Notificar al usuario sobre el cambio de estado
-    this.notificationGateway.notifyUnreadCountChange(userId);
+    // Notificar al usuario sobre el cambio de estado mediante push
+    await this.sendPushNotificationsToUser(
+      userId,
+      'Notificaciones actualizadas',
+      'Se ha actualizado el estado de tus notificaciones',
+      {
+        action: 'unread_count_changed',
+        notificationId,
+      },
+    );
 
     return {
       id: updatedNotification.id,
@@ -184,8 +200,16 @@ export class NotificationService {
       data: { read: true },
     });
 
-    // Notificar al usuario sobre el cambio de estado
-    this.notificationGateway.notifyUnreadCountChange(userId);
+    // Notificar al usuario sobre el cambio de estado mediante push
+    await this.sendPushNotificationsToUser(
+      userId,
+      'Notificaciones actualizadas',
+      'Todas tus notificaciones han sido marcadas como leídas',
+      {
+        action: 'all_read',
+        count: result.count.toString(),
+      },
+    );
 
     return result.count;
   }
@@ -236,15 +260,26 @@ export class NotificationService {
       minute: '2-digit',
     });
 
-    await this.createNotification({
-      userId: organizerId,
-      title: 'Nuevo jugador se unió a tu juego',
-      body: `${playerName} se unió a tu juego de ${gameTypeText} el ${formattedDate}`,
-      type: NotificationType.GAME_JOIN,
+    const title = 'Nuevo jugador se unió a tu juego';
+    const body = `${playerName} se unió a tu juego de ${gameTypeText} el ${formattedDate}`;
+    const data = {
+      gameId: gameDetails.gameId,
+      playerName,
+      gameType: gameDetails.gameType.toString(),
+      notificationType: NotificationType.GAME_JOIN,
+    };
+
+    // Enviar notificación push en lugar de WebSocket
+    await this.sendPushNotificationsToUser(organizerId, title, body, data);
+
+    // También crear la notificación en la base de datos para historial
+    await this.prisma.notification.create({
       data: {
-        gameId: gameDetails.gameId,
-        playerName,
-        gameType: gameDetails.gameType,
+        userId: organizerId,
+        title,
+        body,
+        type: NotificationType.GAME_JOIN,
+        read: false,
       },
     });
   }
@@ -261,15 +296,26 @@ export class NotificationService {
       minute: '2-digit',
     });
 
-    await this.createNotification({
-      userId: organizerId,
-      title: 'Un jugador abandonó tu juego',
-      body: `${playerName} abandonó tu juego de ${gameTypeText} el ${formattedDate}`,
-      type: NotificationType.GAME_LEAVE,
+    const title = 'Un jugador abandonó tu juego';
+    const body = `${playerName} abandonó tu juego de ${gameTypeText} el ${formattedDate}`;
+    const data = {
+      gameId: gameDetails.gameId,
+      playerName,
+      gameType: gameDetails.gameType.toString(),
+      notificationType: NotificationType.GAME_LEAVE,
+    };
+
+    // Enviar notificación push en lugar de WebSocket
+    await this.sendPushNotificationsToUser(organizerId, title, body, data);
+
+    // También crear la notificación en la base de datos para historial
+    await this.prisma.notification.create({
       data: {
-        gameId: gameDetails.gameId,
-        playerName,
-        gameType: gameDetails.gameType,
+        userId: organizerId,
+        title,
+        body,
+        type: NotificationType.GAME_LEAVE,
+        read: false,
       },
     });
   }
@@ -285,14 +331,25 @@ export class NotificationService {
       minute: '2-digit',
     });
 
-    await this.createNotification({
-      userId: playerId,
-      title: 'Fuiste expulsado de un juego',
-      body: `Has sido expulsado del juego de ${gameTypeText} el ${formattedDate}`,
-      type: NotificationType.GAME_KICK,
+    const title = 'Fuiste expulsado de un juego';
+    const body = `Has sido expulsado del juego de ${gameTypeText} el ${formattedDate}`;
+    const data = {
+      gameId: gameDetails.gameId,
+      gameType: gameDetails.gameType.toString(),
+      notificationType: NotificationType.GAME_KICK,
+    };
+
+    // Enviar notificación push en lugar de WebSocket
+    await this.sendPushNotificationsToUser(playerId, title, body, data);
+
+    // También crear la notificación en la base de datos para historial
+    await this.prisma.notification.create({
       data: {
-        gameId: gameDetails.gameId,
-        gameType: gameDetails.gameType,
+        userId: playerId,
+        title,
+        body,
+        type: NotificationType.GAME_KICK,
+        read: false,
       },
     });
   }
@@ -302,14 +359,25 @@ export class NotificationService {
     senderName: string,
     senderId: string,
   ): Promise<void> {
-    await this.createNotification({
-      userId: receiverId,
-      title: 'Nueva solicitud de amistad',
-      body: `${senderName} te ha enviado una solicitud de amistad`,
-      type: NotificationType.FRIEND_REQUEST,
+    const title = 'Nueva solicitud de amistad';
+    const body = `${senderName} te ha enviado una solicitud de amistad`;
+    const data = {
+      senderId,
+      senderName,
+      notificationType: NotificationType.FRIEND_REQUEST,
+    };
+
+    // Enviar notificación push en lugar de WebSocket
+    await this.sendPushNotificationsToUser(receiverId, title, body, data);
+
+    // También crear la notificación en la base de datos para historial
+    await this.prisma.notification.create({
       data: {
-        senderId,
-        senderName,
+        userId: receiverId,
+        title,
+        body,
+        type: NotificationType.FRIEND_REQUEST,
+        read: false,
       },
     });
   }
@@ -319,14 +387,25 @@ export class NotificationService {
     accepterName: string,
     accepterId: string,
   ): Promise<void> {
-    await this.createNotification({
-      userId: senderId,
-      title: 'Solicitud de amistad aceptada',
-      body: `${accepterName} aceptó tu solicitud de amistad`,
-      type: NotificationType.FRIEND_ACCEPT,
+    const title = 'Solicitud de amistad aceptada';
+    const body = `${accepterName} aceptó tu solicitud de amistad`;
+    const data = {
+      accepterId,
+      accepterName,
+      notificationType: NotificationType.FRIEND_ACCEPT,
+    };
+
+    // Enviar notificación push en lugar de WebSocket
+    await this.sendPushNotificationsToUser(senderId, title, body, data);
+
+    // También crear la notificación en la base de datos para historial
+    await this.prisma.notification.create({
       data: {
-        accepterId,
-        accepterName,
+        userId: senderId,
+        title,
+        body,
+        type: NotificationType.FRIEND_ACCEPT,
+        read: false,
       },
     });
   }
@@ -474,7 +553,10 @@ export class NotificationService {
             error.message &&
             (error.message.includes('not a valid FCM') ||
               error.message.includes('unregistered') ||
-              error.message.includes('invalid-registration-token'))
+              error.message.includes('invalid-registration-token') ||
+              (error.errorInfo &&
+                error.errorInfo.code ===
+                  'messaging/registration-token-not-registered'))
           ) {
             await this.removeInvalidFcmToken(token);
           }
