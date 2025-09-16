@@ -1,18 +1,28 @@
-require('dotenv').config({ override: true });
+#!/bin/bash
+set -e  # corta la ejecución si falla algo
 
-module.exports = {
-  apps: [
-    {
-      name: 'app-backend',
-      script: 'dist/main.js',
-      env: {
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-        CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-        DATABASE_URL: process.env.DATABASE_URL,
-        JWT_SECRET: process.env.JWT_SECRET,
-        PORT: 8080,
-        NODE_ENV: process.env.NODE_ENV || 'production'
-      }
-    }
-  ]
-};
+APP_DIR="/home/ec2-user/app-backend"
+
+echo ">>> 🚀 Deploy iniciado..."
+
+# 1. Entrar a la carpeta del repo
+cd "$APP_DIR"
+
+# 2. Actualizar desde GitHub
+echo ">>> 📥 Actualizando código..."
+git fetch --all
+git reset --hard origin/main   # o la rama que uses
+
+# 3. Instalar dependencias con pnpm
+echo ">>> 📦 Instalando dependencias..."
+pnpm install --frozen-lockfile --prod
+
+# 4. Compilar (TypeScript u otro build)
+echo ">>> 🔨 Compilando proyecto..."
+pnpm run build
+
+# 5. Reiniciar aplicación
+echo ">>> 🔄 Reiniciando servicio..."
+pm2 restart app-backend || pm2 start dist/main.js --name app-backend
+
+echo ">>> ✅ Deploy finalizado correctamente!"
