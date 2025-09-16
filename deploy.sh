@@ -13,13 +13,13 @@ echo ">>> 📥 Actualizando código..."
 git fetch --all
 git reset --hard origin/main   # o la rama que uses
 
-# 3. Instalar dependencias con pnpm
+# 3. Instalar dependencias con npm
 echo ">>> 📦 Instalando dependencias..."
-pnpm install --frozen-lockfile --prod
+npm install --production
 
 # 4. Compilar (TypeScript u otro build)
 echo ">>> 🔨 Compilando proyecto..."
-pnpm run build
+npm run build
 
 # 5. Reiniciar aplicación
 echo ">>> 🔄 Reiniciando servicio..."
