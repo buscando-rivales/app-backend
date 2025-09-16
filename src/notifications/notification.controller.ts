@@ -7,6 +7,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Body,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -15,6 +16,7 @@ import {
   ApiBearerAuth,
   ApiQuery,
   ApiParam,
+  ApiBody,
 } from '@nestjs/swagger';
 import { NotificationService } from './notification.service';
 import {
@@ -226,5 +228,264 @@ export class NotificationController {
       notificationId,
       userId,
     );
+  }
+
+  @Post('send-fcm-push')
+  @ApiOperation({
+    summary: 'Send FCM push notification',
+    description:
+      'Send a push notification using Firebase Cloud Messaging to a specific device token',
+  })
+  @ApiBody({
+    description: 'FCM push notification data',
+    schema: {
+      type: 'object',
+      properties: {
+        fcmToken: {
+          type: 'string',
+          description: 'Firebase Cloud Messaging token of the target device',
+          example: 'dGVzdF90b2tlbl8xMjM0NTY3ODkw',
+        },
+        title: {
+          type: 'string',
+          description: 'Notification title',
+          example: 'Nueva notificación',
+        },
+        body: {
+          type: 'string',
+          description: 'Notification body text',
+          example: 'Tienes una nueva notificación importante',
+        },
+        data: {
+          type: 'object',
+          description: 'Additional data to send with the notification',
+          example: {
+            type: 'game_reminder',
+            gameId: 'game_123',
+            timestamp: '2024-01-20T10:00:00Z',
+          },
+        },
+      },
+      required: ['fcmToken', 'title', 'body'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Push notification sent successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'Push notification sent successfully',
+        },
+        messageId: {
+          type: 'string',
+          example:
+            'projects/myproject/messages/0:1234567890123456%31bd1c9631bd1c96',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid FCM token or missing required fields',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: false,
+        },
+        error: {
+          type: 'string',
+          example: 'Invalid FCM token format',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Invalid or missing authentication token',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error - Failed to send push notification',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: false,
+        },
+        error: {
+          type: 'string',
+          example: 'Failed to send push notification',
+        },
+      },
+    },
+  })
+  @ApiBearerAuth()
+  async sendFcmPush(
+    @Body() body: { fcmToken: string; title: string; body: string; data?: any },
+  ): Promise<{
+    success: boolean;
+    message?: string;
+    messageId?: string;
+    error?: string;
+  }> {
+    try {
+      const { fcmToken, title, body: messageBody, data } = body;
+
+      if (!fcmToken || !title || !messageBody) {
+        return {
+          success: false,
+          error:
+            'Missing required fields: fcmToken, title, and body are required',
+        };
+      }
+
+      const messageId = await this.notificationService.sendPushNotification(
+        fcmToken,
+        title,
+        messageBody,
+        data,
+      );
+
+      return {
+        success: true,
+        message: 'Push notification sent successfully',
+        messageId,
+      };
+    } catch (error) {
+      console.error('Error in sendFcmPush controller:', error);
+      return {
+        success: false,
+        error: error.message || 'Failed to send push notification',
+      };
+    }
+  }
+
+  @Post('send-to-user')
+  @ApiOperation({
+    summary: 'Send push notification to user',
+    description:
+      'Send a push notification to all devices registered by a specific user',
+  })
+  @ApiBody({
+    description: 'User push notification data',
+    schema: {
+      type: 'object',
+      properties: {
+        userId: {
+          type: 'string',
+          description: 'ID of the target user',
+          example: 'user_123',
+        },
+        title: {
+          type: 'string',
+          description: 'Notification title',
+          example: 'Nueva notificación',
+        },
+        body: {
+          type: 'string',
+          description: 'Notification body text',
+          example: 'Tienes una nueva notificación importante',
+        },
+        data: {
+          type: 'object',
+          description: 'Additional data to send with the notification',
+          example: {
+            type: 'game_reminder',
+            gameId: 'game_123',
+            timestamp: '2024-01-20T10:00:00Z',
+          },
+        },
+      },
+      required: ['userId', 'title', 'body'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Push notifications sent successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'Push notifications sent to user devices',
+        },
+        sentCount: {
+          type: 'number',
+          example: 2,
+        },
+        failedCount: {
+          type: 'number',
+          example: 0,
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Missing required fields',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Invalid or missing authentication token',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found or no devices registered',
+  })
+  @ApiBearerAuth()
+  async sendToUser(
+    @Body() body: { userId: string; title: string; body: string; data?: any },
+  ): Promise<{
+    success: boolean;
+    message?: string;
+    sentCount?: number;
+    failedCount?: number;
+    error?: string;
+  }> {
+    try {
+      const { userId, title, body: messageBody, data } = body;
+
+      if (!userId || !title || !messageBody) {
+        return {
+          success: false,
+          error:
+            'Missing required fields: userId, title, and body are required',
+        };
+      }
+
+      const result = await this.notificationService.sendPushNotificationsToUser(
+        userId,
+        title,
+        messageBody,
+        data,
+      );
+
+      return {
+        success: true,
+        message: 'Push notifications sent to user devices',
+        sentCount: result.sentCount,
+        failedCount: result.failedCount,
+      };
+    } catch (error) {
+      console.error('Error in sendToUser controller:', error);
+      return {
+        success: false,
+        error: error.message || 'Failed to send push notifications to user',
+      };
+    }
   }
 }

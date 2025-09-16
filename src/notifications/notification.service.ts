@@ -32,14 +32,11 @@ export class NotificationService {
         console.log('Firebase Admin SDK usando app existente');
         return;
       } catch (error) {
+        console.error('Error obteniendo app Firebase existente:', error);
         // Si no existe, crear una nueva
       }
 
-      const serviceAccountPath = path.join(
-        __dirname,
-        '..',
-        'serviceAccountkey.json',
-      );
+      const serviceAccountPath = path.join(__dirname, 'serviceAccountkey.json');
       const serviceAccount = JSON.parse(
         fs.readFileSync(serviceAccountPath, 'utf8'),
       );
@@ -400,6 +397,103 @@ export class NotificationService {
       }
 
       throw new Error(`Error enviando notificación push: ${error.message}`);
+    }
+  }
+
+  /**
+   * Obtiene todos los tokens FCM registrados para un usuario
+   * @param userId ID del usuario
+   * @returns Promise<string[]> Lista de tokens FCM
+   */
+  async getUserFcmTokens(userId: string): Promise<string[]> {
+    const devices = await this.prisma.user_devices.findMany({
+      where: { user_id: userId },
+      select: { fcm_token: true },
+    });
+
+    return devices.map((device) => device.fcm_token).filter(Boolean);
+  }
+
+  /**
+   * Elimina un token FCM inválido de la base de datos
+   * @param token Token FCM inválido
+   */
+  async removeInvalidFcmToken(token: string): Promise<void> {
+    try {
+      await this.prisma.user_devices.deleteMany({
+        where: { fcm_token: token },
+      });
+      console.log(`Token FCM inválido eliminado: ${token.substring(0, 10)}...`);
+    } catch (error) {
+      console.error('Error eliminando token FCM inválido:', error);
+    }
+  }
+
+  /**
+   * Envía notificaciones push a todos los dispositivos de un usuario
+   * @param userId ID del usuario
+   * @param title Título de la notificación
+   * @param body Cuerpo de la notificación
+   * @param data Datos adicionales opcionales
+   */
+  async sendPushNotificationsToUser(
+    userId: string,
+    title: string,
+    body: string,
+    data?: Record<string, string>,
+  ): Promise<{ sentCount: number; failedCount: number }> {
+    try {
+      const tokens = await this.getUserFcmTokens(userId);
+
+      if (tokens.length === 0) {
+        console.log(`No se encontraron tokens FCM para el usuario ${userId}`);
+        return { sentCount: 0, failedCount: 0 };
+      }
+
+      console.log(
+        `Enviando notificación push a ${tokens.length} dispositivos del usuario ${userId}`,
+      );
+
+      let sentCount = 0;
+      let failedCount = 0;
+
+      // Enviar notificación a cada token (en paralelo)
+      const pushPromises = tokens.map(async (token) => {
+        try {
+          await this.sendPushNotification(token, title, body, data);
+          sentCount++;
+        } catch (error) {
+          // Los errores ya se manejan en sendPushNotification
+          console.warn(
+            `Error enviando push a token ${token.substring(0, 20)}...`,
+          );
+          failedCount++;
+
+          // Si el error es por token inválido, eliminarlo
+          if (
+            error.message &&
+            (error.message.includes('not a valid FCM') ||
+              error.message.includes('unregistered') ||
+              error.message.includes('invalid-registration-token'))
+          ) {
+            await this.removeInvalidFcmToken(token);
+          }
+        }
+      });
+
+      await Promise.allSettled(pushPromises);
+
+      console.log(
+        `Notificaciones enviadas al usuario ${userId}. Exitosas: ${sentCount}, Fallidas: ${failedCount}`,
+      );
+
+      return { sentCount, failedCount };
+    } catch (error) {
+      console.error(
+        `Error enviando notificaciones push al usuario ${userId}:`,
+        error,
+      );
+      throw error;
     }
   }
 }
