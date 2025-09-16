@@ -2,7 +2,7 @@
 set -e  # corta la ejecución si falla algo
 
 APP_DIR="/home/ec2-user/app-backend"
-DIST_DIR="$APP_DIR/dist"
+DIST_DIR="$APP_DIR/dist/notifications"
 SERVICE_KEY="/home/ec2-user/serviceAccountkey.json"
 
 echo ">>> 🚀 Deploy iniciado..."
