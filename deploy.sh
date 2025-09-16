@@ -1,5 +1,4 @@
-nano ecosystem.config.js
-  require('dotenv').config({ override: true });
+require('dotenv').config({ override: true });
 
 module.exports = {
   apps: [
