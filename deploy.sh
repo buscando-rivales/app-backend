@@ -2,6 +2,8 @@
 set -e  # corta la ejecución si falla algo
 
 APP_DIR="/home/ec2-user/app-backend"
+DIST_DIR="$APP_DIR/dist"
+SERVICE_KEY="/home/ec2-user/serviceAccountkey.json"
 
 echo ">>> 🚀 Deploy iniciado..."
 
@@ -13,15 +15,19 @@ echo ">>> 📥 Actualizando código..."
 git fetch --all
 git reset --hard origin/main   # o la rama que uses
 
-# 3. Instalar dependencias con npm
+# 3. Instalar dependencias
 echo ">>> 📦 Instalando dependencias..."
 npm install --production
 
-# 4. Compilar (TypeScript u otro build)
+# 4. Compilar
 echo ">>> 🔨 Compilando proyecto..."
 npm run build
 
-# 5. Reiniciar aplicación
+# 5. Copiar el serviceAccountkey.json al dist
+echo ">>> 📂 Copiando credenciales Firebase al dist..."
+cp "$SERVICE_KEY" "$DIST_DIR/serviceAccountkey.json"
+
+# 6. Reiniciar aplicación
 echo ">>> 🔄 Reiniciando servicio..."
 pm2 restart app-backend || pm2 start dist/main.js --name app-backend
 
