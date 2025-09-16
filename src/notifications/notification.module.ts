@@ -5,6 +5,7 @@ import { NotificationGateway } from './notification.gateway';
 import { PrismaService } from '../services/prisma.service';
 import { ClerkService } from '../auth/clerk.service';
 import { MetricsModule } from '../metrics/metrics.module';
+import Expo from 'expo-server-sdk';
 
 @Module({
   imports: [MetricsModule],
@@ -14,6 +15,7 @@ import { MetricsModule } from '../metrics/metrics.module';
     NotificationGateway,
     PrismaService,
     ClerkService,
+    Expo,
   ],
   exports: [NotificationService, NotificationGateway],
 })
