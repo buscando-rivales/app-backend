@@ -9,8 +9,10 @@ import {
 } from './dto/notification.dto';
 import { NotificationGateway } from './notification.gateway';
 import * as admin from 'firebase-admin';
-import * as path from 'path';
-import * as fs from 'fs';
+
+const serviceAccount = JSON.parse(
+  Buffer.from(process.env.FIREBASE_CONFIG_B64!, 'base64').toString(),
+);
 
 @Injectable()
 export class NotificationService {
@@ -35,11 +37,6 @@ export class NotificationService {
         console.error('Error obteniendo app Firebase existente:', error);
         // Si no existe, crear una nueva
       }
-
-      const serviceAccountPath = path.join(__dirname, 'serviceAccountkey.json');
-      const serviceAccount = JSON.parse(
-        fs.readFileSync(serviceAccountPath, 'utf8'),
-      );
 
       this.firebaseApp = admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
